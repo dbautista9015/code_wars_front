@@ -28,9 +28,9 @@ function App() {
           </Container>
         </Navbar>
         <Routes>
-          <Route path="/LoginPage" element={<LoginPage />} />
+          <Route path="/Login" element={<LoginPage />} />
           {/* <Route path="/DashboardPage" element={<DashboardPage />} /> */}
-          <Route path="/AdminPage" element={<AdminPage />} />
+          <Route path="/Admin" element={<AdminPage />} />
         </Routes>
       </BrowserRouter>
     </>
