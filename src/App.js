@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { Container, Row, Col, Nav, Navbar, NavDropdown, Button } from "react-bootstrap";
 import LoginPage from './Components/LoginPage';
+import DashboardPage from './Components/DashboardPage';
 
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
     <>
       <BrowserRouter >
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-          <Container>
+          <Container fluid className='ms-5 me-5' >
           <Navbar.Brand className='headerText' as={Link} to="/">Codewars Reservations</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -28,7 +29,7 @@ function App() {
         </Navbar>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          {/* {/* <Route path="/DashboardPage" element={<DashboardPage />} /> */}
+          <Route path="/dashboard" element={<DashboardPage />} />
           {/* <Route path="/admin" element={<Admin />} /> */}
         </Routes>
       </BrowserRouter>

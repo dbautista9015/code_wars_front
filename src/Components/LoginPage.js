@@ -24,7 +24,7 @@ const LoginPage = () => {
                                 </Form.Group>
                             <Row className='justify-content-center mt-5 mb-3 ms-1 me-1'>
                                 <Button className='allText signinBtnBg' variant="primary" type="submit">
-                                    Sign in
+                                    Sign in 🚀
                                 </Button>
                             </Row>
                             </div>
@@ -36,7 +36,7 @@ const LoginPage = () => {
                         </Form>
                     </Col>
                 </Row>
-            </Container>
+            </Container >
         </>
     );
 }
