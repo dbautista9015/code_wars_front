@@ -1,3 +1,5 @@
+/* @import url(‘https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap’); */
+
 .App {
   text-align: center;
 }
@@ -35,4 +37,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.headerText {
+  font-family: ‘Maven Pro’, sans-serif;
+}
+
+.allText {
+  font-family: ‘PT Sans’, sans-serif;
 }
