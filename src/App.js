@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { Container, Row, Col, Nav, Navbar, NavDropdown, Button } from "react-bootstrap";
 import LoginPage from './Components/LoginPage';
+import AdminPage from './Components/AdminPage';
 
 
 function App() {
@@ -28,8 +29,8 @@ function App() {
         </Navbar>
         <Routes>
           <Route path="/LoginPage" element={<LoginPage />} />
-          {/* <Route path="/DashboardPage" element={<DashboardPage />} />
-          <Route path="/AdminPage" element={<AdminPage />} /> */}
+          {/* <Route path="/DashboardPage" element={<DashboardPage />} /> */}
+          <Route path="/AdminPage" element={<AdminPage />} />
         </Routes>
       </BrowserRouter>
     </>
