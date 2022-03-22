@@ -29,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           {/* {/* <Route path="/DashboardPage" element={<DashboardPage />} /> */}
-          {/* <Route path="/admin" element={<Admin />} /> */} */}
+          {/* <Route path="/admin" element={<Admin />} /> */}
         </Routes>
       </BrowserRouter>
     </>
