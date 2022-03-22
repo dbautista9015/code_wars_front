@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap");
 
 .headerText {
-  font-family: 'Maven Pro', sans-serif;
+  font-family: "Maven Pro", sans-serif;
 }
 
 .allText {
-  font-family: 'PT Sans', sans-serif;
+  font-family: "PT Sans", sans-serif;
 }
 
 .grayCardBg {
@@ -17,21 +17,21 @@
 }
 
 .askAnAdminLoginText {
-  color: #A7A7A8 !important;
+  color: #a7a7a8 !important;
   font-size: 13px;
 }
 
 .enterUsernameLoginText {
-  color: #A7A7A8 !important;
+  color: #a7a7a8 !important;
 }
 
 .loginForm {
-  background-color: #27272A!important;
-  color: white!important; 
+  background-color: #27272a !important;
+  color: white !important;
 }
 
 .loginFormText {
-  color: #71717A;
+  color: #71717a;
 }
 
 .center {
