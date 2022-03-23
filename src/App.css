@@ -127,3 +127,21 @@
 .greenText {
   color: green;
 }
+
+.listGroupBG{
+  background-color: #262729 !important;
+  color: #A7A7A8 !important;
+}
+
+/* .editCohortColor{
+  background-color: #262729 !important;
+} */
+
+.modal-content{
+  background-color:#171719 !important;
+  color:white
+}
+
+.labelTxt{
+  color:#A7A7A8
+}
