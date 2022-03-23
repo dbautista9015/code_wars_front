@@ -9,11 +9,11 @@ const AdminPage = () => {
   return (
     <>
     <Container fluid>
-    <h1 className="d-flex justify-content-center pt-3 headerText" style={{ color: "white"}} >Admin Page </h1>
+    {/* <h1 className="d-flex justify-content-center pt-3 headerText" style={{ color: "white"}} >Admin Page </h1> */}
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">
         <Row >
           <Col sm={3} className="tabBg">
-            <Nav variant="pills" className="flex-column mt-5 allText">
+            <Nav variant="pills" className="flex-column allText marginTop">
               <Nav.Item>
                 <Nav.Link eventKey="first"  className="headerText tabBtn mb-4">Create Account</Nav.Link>
               </Nav.Item>
