@@ -4,8 +4,8 @@ import { Form, Button, Row, Col, Container } from "react-bootstrap";
 export default function AccountComponent() {
   return (
     <>
-      <Container className='grayCardBg mt-5 pt-4 pb-2 roundedCorners'>
-        <Row className="justify-content-center">
+      <Container className='grayCardBg mt-5 pt-4 pb-4 roundedCorners'>
+        <Row >
           <Col sm={3} >
             <h3 className="headerText text-end" style={{ color: "white" }}>
               Create Account:

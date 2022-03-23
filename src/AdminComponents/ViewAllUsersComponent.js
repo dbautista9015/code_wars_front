@@ -7,6 +7,7 @@ import {
   Button,
   Modal,
   Table,
+  Container,
 } from "react-bootstrap";
 
 export default function ViewAllUsersComponent() {
@@ -16,6 +17,7 @@ export default function ViewAllUsersComponent() {
   const handleShow = () => setShow(true);
   return (
     <>
+    <Container className='grayCardBg mt-5 pt-4 pb-4 roundedCorners'>
       <div>
         <Row>
           <Col sm={3}>
@@ -126,6 +128,7 @@ export default function ViewAllUsersComponent() {
           </Button>
         </Modal.Footer>
       </Modal>
+      </Container>
     </>
   );
 }
