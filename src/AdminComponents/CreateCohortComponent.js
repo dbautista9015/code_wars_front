@@ -15,7 +15,7 @@ export default function CreateCohortComponent() {
         <Col sm={6}>
         <FloatingLabel
         controlId="floatingInput"
-        label="Enter Cohort's name"
+        label="Example: Season 1 Cohort"
         className="mb-3 allText "
         style={{ color: "white" }}
       >
