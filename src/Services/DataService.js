@@ -24,6 +24,88 @@ async function GetUserByUsername(username){
     return data;
 }
 
+//users
+async function AddUser(newUser){
+    let res= await fetch('https://mycodewars.azurewebsites.net/User/AddUser', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newUser)
+    });
+    if(!res.ok)
+    {
+        const message = `An Error has Occured ${res.status}`
+        throw new Error (message)
+    }
+    let data = await res.json();
+   return data;
+}
+
+async function DeleteUser(userName){
+    let res= await fetch(`https://mycodewars.azurewebsites.net/User/DeleteUser/${userName}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify()
+    });
+    if(!res.ok)
+    {
+        const message = `An Error has Occured ${res.status}`
+        throw new Error (message)
+    }
+    let data = await res.json();
+   return data;
+}
+
+async function EditCohortForUser(userName, cohortName){
+    let res= await fetch(`https://mycodewars.azurewebsites.net/User/EditCohortForUser/${userName}/${cohortName}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify()
+    });
+    if(!res.ok)
+    {
+        const message = `An Error has Occured ${res.status}`
+        throw new Error (message)
+    }
+    let data = await res.json();
+   return data;
+}
+
+async function ChangeAdminStatus(userName){
+    let res= await fetch(`https://mycodewars.azurewebsites.net/User/AdminStatus/${userName}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify()
+    });
+    if(!res.ok)
+    {
+        const message = `An Error has Occured ${res.status}`
+        throw new Error (message)
+    }
+    let data = await res.json();
+   return data;
+}
+
+async function GetUsersByCohort(cohortName){
+    let res = await fetch(`https://mycodewars.azurewebsites.net/User/GetUsersByCohort/${cohortName}`);
+    let data = await res.json();
+    return data;
+}
+
+async function GetUserByUsername(cohortName){
+    let res = await fetch(`https://mycodewars.azurewebsites.net/User/GetUserByUsername/${cohortName}`);
+    let data = await res.json();
+    return data;
+}
+
+
 //cohorts
 async function AddCohort(newCohort){
     let res= await fetch('https://mycodewars.azurewebsites.net/Cohort/AddCohort', {
@@ -128,6 +210,84 @@ async function EditCohortName(oldCohortName, updatedCohortName){
    return data;
 }
 
+//reservations
+async function CreateReservation(newReservation){
+    let res= await fetch('https://mycodewars.azurewebsites.net/Reserve/CreateReservation', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newReservation)
+    });
+    if(!res.ok)
+    {
+        const message = `An Error has Occured ${res.status}`
+        throw new Error (message)
+    }
+    let data = await res.json();
+   return data;
+}
+
+async function ChangeReservationCompletedStatus(id){
+    let res= await fetch(`https://mycodewars.azurewebsites.net/Reserve/ChangeReservationCompletedStatus/${id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify()
+    });
+    if(!res.ok)
+    {
+        const message = `An Error has Occured ${res.status}`
+        throw new Error (message)
+    }
+    let data = await res.json();
+   return data;
+}
+
+async function GetAllReservations(){
+    let res = await fetch('https://mycodewars.azurewebsites.net/Reserve/GetAllReservations');
+    let data = await res.json();
+    return data;
+}
+
+async function GetReservationById(id){
+    let res = await fetch(`https://mycodewars.azurewebsites.net/Reserve/GetReservationById/${id}`);
+    let data = await res.json();
+    return data;
+}
+
+async function GetReservationsByUsername(userName){
+    let res = await fetch(`https://mycodewars.azurewebsites.net/Reserve/GetReservationByUsername/${userName}`);
+    let data = await res.json();
+    return data;
+}
+
+async function GetAllCompletedKataReservations(){
+    let res = await fetch('https://mycodewars.azurewebsites.net/Reserve/GetAllCompletedKataReservations');
+    let data = await res.json();
+    return data;
+}
+
+async function GetAllCompletedKatasByCohortId(id){
+    let res = await fetch(`https://mycodewars.azurewebsites.net/Reserve/GetAllCompletedKatasByCohortId/${id}`);
+    let data = await res.json();
+    return data;
+}
+
+async function GetReservedKatasByCohortId(id){
+    let res = await fetch(`https://mycodewars.azurewebsites.net/Reserve/GetReservedKatasByCohortId/${id}`);
+    let data = await res.json();
+    return data;
+}
+
+async function GetReservedKatasByKataLanguage(kataLanguage){
+    let res = await fetch(`https://mycodewars.azurewebsites.net/Reserve/GetReservedKatasByKataLanguage/${kataLanguage}`);
+    let data = await res.json();
+    return data;
+}
+
+
 //completed
 async function AddCompletedKata(newCompletedKata){
     let res= await fetch('https://mycodewars.azurewebsites.net/Completed/AddCompletedKata', {
@@ -169,4 +329,4 @@ async function GetCompletedKatasByCodewarsName(codewarsName){
 
 
 
-export { UserLogin, GetUserByUsername, AddCohort, GetAllCohorts, GetCohortById, GetArchivedCohorts, ArchiveByCohortName, DeleteByCohortName, UpdateCohortLvlDifficulty, EditCohortName, AddCompletedKata, GetAllCompletedKatas, GetCompletedKatasByCohortId, GetCompletedKatasByCodewarsName };
+export { UserLogin, GetUserByUsername, AddCohort, GetAllCohorts, GetCohortById, GetArchivedCohorts, ArchiveByCohortName, DeleteByCohortName, UpdateCohortLvlDifficulty, EditCohortName, AddCompletedKata, GetAllCompletedKatas, GetCompletedKatasByCohortId, GetCompletedKatasByCodewarsName, GetReservedKatasByKataLanguage, GetReservedKatasByCohortId, GetAllCompletedKatasByCohortId, GetAllCompletedKataReservations, GetReservationsByUsername, GetReservationById, GetAllReservations, ChangeReservationCompletedStatus, CreateReservation, GetUsersByCohort, ChangeAdminStatus, EditCohortForUser, DeleteUser, AddUser };
