@@ -5,14 +5,14 @@ export default function CreateCohortComponent() {
     <>
     <Container>
       <Row>
-        <Col sm={6}>
-        <h3 className="headerText" style={{ color: "white" }}>
-        Create Cohort
+        <Col sm={3}>
+        <h3 className="headerText text-end" style={{ color: "white" }}>
+        Create Cohort:
       </h3>
         </Col>
       </Row>
     
-      <Row>
+      <Row className="justify-content-center">
         <Col sm={6}>
         <FloatingLabel
         controlId="floatingInput"
@@ -41,12 +41,12 @@ export default function CreateCohortComponent() {
       </Row>
 
       <Row>
-        <Col sm={6}>
-        <h4 className="mt-4 headerText"  style={{ color: "white" }}>Add Users:</h4>
+        <Col sm={3}>
+        <h3 className="mt-4 headerText text-end"  style={{ color: "white" }}>Add Users:</h3>
         </Col>
       </Row>
 
-      <Row>
+      <Row className="justify-content-center">
         <Col sm={6}>
         <ListGroup as="ul">
         <ListGroup.Item as ="li" className="listGroupBG">Danny</ListGroup.Item>
