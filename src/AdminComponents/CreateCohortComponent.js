@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, FloatingLabel, ListGroup, Row, Col, Container } from "react-bootstrap";
+import { Form, FloatingLabel, ListGroup, Row, Col, Container, Button } from "react-bootstrap";
 export default function CreateCohortComponent() {
   return (
     <>
@@ -11,7 +11,6 @@ export default function CreateCohortComponent() {
       </h3>
         </Col>
       </Row>
-    
       <Row className="justify-content-center">
         <Col sm={6}>
         <FloatingLabel
@@ -26,6 +25,11 @@ export default function CreateCohortComponent() {
           placeholder="Cohort's name"
         />
       </FloatingLabel>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col sm={6}>
+       
       <Form.Select aria-label="Default select example" className="listGroupBG">
         <option>Select Cohort's Kata Level</option>
         <option value="8">8 Kyu Kata</option>
@@ -37,6 +41,13 @@ export default function CreateCohortComponent() {
         <option value="2">2 Kyu Kata</option>
         <option value="1">1 Kyu Kata</option>
       </Form.Select>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col sm={6}>
+        <Button variant="success" type="submit" className="mt-3 allText">
+          Submit
+        </Button>
         </Col>
       </Row>
 
