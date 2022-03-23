@@ -4,11 +4,16 @@ import { Form, Button, Row, Col } from "react-bootstrap";
 export default function AccountComponent() {
   return (
     <>
-      <h3 className="headerText" style={{ color: "white" }}>
-        Create Account
+    <Row>
+      <Col sm={3}>
+      <h3 className="headerText text-end" style={{ color: "white" }}>
+        Create Account:
       </h3>
+      </Col>
+    </Row>
+     
 
-      <Row>
+      <Row className="justify-content-center">
 <Col sm={6}>
       
       <Form>

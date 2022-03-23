@@ -11,11 +11,19 @@ export default function EditCohortComponent() {
     <>
       <div>
         <Row>
-          <Col sm={6}>
-            <h3 className="headerText " style={{ color: "white" }}>
+          <Col sm={3}>
+          <h3 className="headerText text-end" style={{ color: "white" }}>
               Edit Cohorts
             </h3>
-            <ListGroup defaultActiveKey="#link1" className="align-items-center">
+          </Col>
+        </Row>
+        <Row className="justify-content-center" >
+          <Col sm={6}>
+           
+            <ListGroup
+              defaultActiveKey="#link1"
+              className="align-items-center"
+            >
               <ListGroup.Item
                 action
                 className="listGroupBG"
