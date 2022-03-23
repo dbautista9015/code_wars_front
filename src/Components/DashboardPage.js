@@ -1,7 +1,8 @@
 import React from 'react';
-import { Container, Row, Col, Form, Button, Tab, Nav } from 'react-bootstrap'
-import ReserveAKataComponent from '../DashboardComponents/ReserveAKataComponent'
-import YourCurrentKatasComponent from '../DashboardComponents/YourCurrentKatasComponent'
+import { Container, Row, Col, Form, Button, Tab, Nav } from 'react-bootstrap';
+import ReserveAKataComponent from '../DashboardComponents/ReserveAKataComponent';
+import YourCurrentKatasComponent from '../DashboardComponents/YourCurrentKatasComponent';
+import YourPastKatasComponent from '../DashboardComponents/YourPastKatasComponent';
 
 export default function DashboardPage() {
   return (
@@ -31,7 +32,7 @@ export default function DashboardPage() {
                             <YourCurrentKatasComponent />
                         </Tab.Pane>
                         <Tab.Pane eventKey="third">
-                            {/* <EditCohortComponent /> */}
+                            <YourPastKatasComponent />
                         </Tab.Pane>
                         <Tab.Pane eventKey="fourth">
                             {/* <ViewAllUsersComponent /> */}

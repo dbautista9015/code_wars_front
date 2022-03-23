@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col, Form, Button, Tab, Nav, Table } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button, Tab, Nav, Table } from 'react-bootstrap';
 
 export default function YourCurrentKatasComponent() {
 

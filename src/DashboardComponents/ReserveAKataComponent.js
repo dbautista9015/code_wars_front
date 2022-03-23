@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col, Form, Button, Tab, Nav } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button, Tab, Nav } from 'react-bootstrap';
 
 export default function ReserveAKataComponent() {
   return (
