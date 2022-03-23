@@ -71,6 +71,11 @@
   overflow-y: scroll;
 }
 
+.scrollFeature2 {
+  max-height: 130px;
+  overflow-y: scroll;
+}
+
 .marginTop {
   margin-top: 45%;
 }
@@ -109,4 +114,16 @@
   height: 30px;
   width: 30px;
   margin-right: 10px;
+}
+
+.unreserveBtn {
+  width: 100px;
+}
+
+.redText {
+  color: red;
+}
+
+.greenText {
+  color: green;
 }
