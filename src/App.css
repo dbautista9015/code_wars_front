@@ -145,3 +145,9 @@
 .labelTxt{
   color:#A7A7A8
 }
+
+.accordion-button{
+  background-color: #262729 !important;
+  color: #A7A7A8 !important;
+  border-color: #171719 !important;
+}
