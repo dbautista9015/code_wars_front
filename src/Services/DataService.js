@@ -20,7 +20,7 @@ async function UserLogin(userData){
 }
 
 async function GetUserByUsername(username){
-    let res = await fetch('https://mycodewars.azurewebsites.net/User/GetUserByUsername');
+    let res = await fetch('https://mycodewars.azurewebsites.net/User/GetUserByUsername/' + (username));
     let data = await res.json();
     return data;
 }

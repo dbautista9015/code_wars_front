@@ -21,7 +21,8 @@ const LoginPage = () => {
 
         if (token.token != null) {
             localStorage.setItem('Token', token.token);
-            let userInfo = GetUserByUsername(username)
+            let userInfo = GetUserByUsername(userData.username)
+            console.log(userInfo);
             // navigate("");
         } else {
             // Do something
