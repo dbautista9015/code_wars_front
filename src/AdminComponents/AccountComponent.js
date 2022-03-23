@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 
 export default function AccountComponent() {
   return (
@@ -7,6 +7,10 @@ export default function AccountComponent() {
       <h3 className="headerText" style={{ color: "white" }}>
         Create Account
       </h3>
+
+      <Row>
+<Col sm={6}>
+      
       <Form>
         <Form.Group className="mb-3 allText" controlId="CodewarsUsername">
           {/* <Form.Label  >Codewars Username</Form.Label> */}
@@ -26,12 +30,15 @@ export default function AccountComponent() {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check Me if Admin Role" />
+          <Form.Check type="checkbox" label="Check If Admin Role" className="labelTxt">
+            </Form.Check>
         </Form.Group>
         <Button variant="success" type="submit" className="allText">
           Submit
         </Button>
       </Form>
+      </Col>
+      </Row>
     </>
   );
 }
