@@ -31,7 +31,7 @@ export default function EditCohortComponent() {
               >
                 Season 1 Cohort
               </ListGroup.Item>
-              <ListGroup.Item action className="listGroupBG">
+              <ListGroup.Item action className="listGroupBG" onClick={handleShow}>
                 Season 2 Cohort
               </ListGroup.Item>
               <ListGroup.Item action className="listGroupBG">
@@ -51,7 +51,7 @@ export default function EditCohortComponent() {
       <>
         <Modal show={show} onHide={handleClose} className="editCohortColor">
           <Modal.Header closeButton>
-            <Modal.Title>Edit Cohort</Modal.Title>
+            <Modal.Title>Edit Cohort & Kata Level</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
@@ -66,7 +66,10 @@ export default function EditCohortComponent() {
 
               <Form.Group>
                 {/* <Form.Label> </Form.Label> */}
-                <Form.Select aria-label="Default select example" className="listGroupBG">
+                <Form.Select
+                  aria-label="Default select example"
+                  className="listGroupBG"
+                >
                   <option>Select Cohort's Kata Level</option>
                   <option value="8">8 Kyu Kata</option>
                   <option value="7">7 Kyu Kata</option>
@@ -89,10 +92,18 @@ export default function EditCohortComponent() {
               <Row>
                 <Col>
                   <ListGroup as="ul">
-                    <ListGroup.Item as="li" className="listGroupBG">Danny</ListGroup.Item>
-                    <ListGroup.Item as="li" className="listGroupBG">Trent</ListGroup.Item>
-                    <ListGroup.Item as="li" className="listGroupBG">Dylan</ListGroup.Item>
-                    <ListGroup.Item as="li" className="listGroupBG">Walaa</ListGroup.Item>
+                    <ListGroup.Item as="li" className="listGroupBG">
+                      Danny
+                    </ListGroup.Item>
+                    <ListGroup.Item as="li" className="listGroupBG">
+                      Trent
+                    </ListGroup.Item>
+                    <ListGroup.Item as="li" className="listGroupBG">
+                      Dylan
+                    </ListGroup.Item>
+                    <ListGroup.Item as="li" className="listGroupBG">
+                      Walaa
+                    </ListGroup.Item>
                   </ListGroup>
                 </Col>
               </Row>
@@ -107,10 +118,18 @@ export default function EditCohortComponent() {
               <Row>
                 <Col>
                   <ListGroup as="ul">
-                    <ListGroup.Item as="li" className="listGroupBG">Danny</ListGroup.Item>
-                    <ListGroup.Item as="li" className="listGroupBG">Trent</ListGroup.Item>
-                    <ListGroup.Item as="li" className="listGroupBG">Dylan</ListGroup.Item>
-                    <ListGroup.Item as="li" className="listGroupBG">Walaa</ListGroup.Item>
+                    <ListGroup.Item as="li" className="listGroupBG">
+                      Danny
+                    </ListGroup.Item>
+                    <ListGroup.Item as="li" className="listGroupBG">
+                      Trent
+                    </ListGroup.Item>
+                    <ListGroup.Item as="li" className="listGroupBG">
+                      Dylan
+                    </ListGroup.Item>
+                    <ListGroup.Item as="li" className="listGroupBG">
+                      Walaa
+                    </ListGroup.Item>
                   </ListGroup>
                 </Col>
               </Row>

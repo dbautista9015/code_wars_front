@@ -43,14 +43,15 @@
 .dashboardSlugTitle {
   color: #A7A7A8 !important; 
   font-size: 22px;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 .dashboardSlugText {
   color: #A7A7A8 !important; 
   font-size: 22px;
   /* text-decoration: underline; */
-  background-color: #171719;
+  /* background-color: #171719; */
+  color: #DFDFDF !important;
 }
 
 .dashboardDescText {
@@ -62,24 +63,67 @@
 }
 
 .reservationBtn {
-
+  background-color: rgb(70, 154, 70) !important;
 }
 
-
-.listGroupBG{
-  background-color: #262729 !important;
-  color: #A7A7A8 !important;
+.scrollFeature {
+  max-height: 250px;
+  overflow-y: scroll;
 }
 
-/* .editCohortColor{
-  background-color: #262729 !important;
-} */
-
-.modal-content{
-  background-color:#171719 !important;
-  color:white
+.scrollFeature2 {
+  max-height: 130px;
+  overflow-y: scroll;
 }
 
-.labelTxt{
-  color:#A7A7A8
+.marginTop {
+  margin-top: 45%;
+}
+
+.tabBg {
+  background-color: #262729;
+  min-height: 94vh;
+}
+
+.tabBtn {
+  background-color: #27272A !important;
+  border-radius: 0.1px;
+  border: 2px solid #3F3F45 !important;
+  color: #DFDFDF !important;
+  font-size: 18px;
+}
+
+.tabBtn:hover {
+  background-color: #3F3F45 !important;
+}
+
+.roundedCorners {
+  border-radius: 20px;
+}
+
+.searchBarBg {
+  background-color: #222325!important;
+}
+
+.searchKataText {
+  color: #EFEFEF;
+  font-size: 28px;
+}
+
+.navImg {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+}
+
+.unreserveBtn {
+  width: 100px;
+}
+
+.redText {
+  color: red;
+}
+
+.greenText {
+  color: green;
 }
