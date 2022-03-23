@@ -7,7 +7,6 @@ export default function YourCurrentKatasComponent() {
         // Open current reservation clicked
     }
 
-
   return (
     <>
         <Container className=''>

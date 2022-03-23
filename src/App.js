@@ -13,7 +13,7 @@ function App() {
       <BrowserRouter >
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
           <Container fluid className='ms-5 me-5' >
-          <img class="navImg img-fluid" src="https://www.codewars.com/packs/assets/logo.61192cf7.svg" />
+          <img className="navImg img-fluid" src="https://www.codewars.com/packs/assets/logo.61192cf7.svg" />
           <Navbar.Brand className='headerText' as={Link} to="">Codewars Reservations</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
