@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { Container, Row, Col, Nav, Navbar, NavDropdown, Button } from "react-bootstrap";
 import LoginPage from './Components/LoginPage';
 import DashboardPage from './Components/DashboardPage';
-
+import AdminPage from './Components/AdminPage';
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
-          {/* <Route path="/admin" element={<Admin />} /> */}
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </BrowserRouter>
     </>
