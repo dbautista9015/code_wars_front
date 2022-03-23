@@ -26,7 +26,7 @@ export default function CreateCohortComponent() {
           placeholder="Cohort's name"
         />
       </FloatingLabel>
-      <Form.Select aria-label="Default select example">
+      <Form.Select aria-label="Default select example" className="listGroupBG">
         <option>Select Cohort's Kata Level</option>
         <option value="8">8 Kyu Kata</option>
         <option value="7">7 Kyu Kata</option>
@@ -49,10 +49,10 @@ export default function CreateCohortComponent() {
       <Row>
         <Col sm={6}>
         <ListGroup as="ul">
-        <ListGroup.Item as ="li">Danny</ListGroup.Item>
-        <ListGroup.Item as ="li">Trent</ListGroup.Item>
-        <ListGroup.Item as ="li">Dylan</ListGroup.Item>
-        <ListGroup.Item as ="li">Walaa</ListGroup.Item>
+        <ListGroup.Item as ="li" className="listGroupBG">Danny</ListGroup.Item>
+        <ListGroup.Item as ="li" className="listGroupBG">Trent</ListGroup.Item>
+        <ListGroup.Item as ="li" className="listGroupBG">Dylan</ListGroup.Item>
+        <ListGroup.Item as ="li" className="listGroupBG">Walaa</ListGroup.Item>
       </ListGroup>
         </Col>
       </Row>
