@@ -8,23 +8,23 @@ import ViewAllUsersComponent from '../AdminComponents/ViewAllUsersComponent';
 const AdminPage = () => {
   return (
     <>
-
+    <Container fluid>
     <h1 className="d-flex justify-content-center pt-3 headerText" style={{ color: "white"}} >Admin Page </h1>
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-        <Row>
-          <Col sm={3}>
-            <Nav variant="pills" className="flex-column pt-5 allText">
+        <Row >
+          <Col sm={3} className="tabBg">
+            <Nav variant="pills" className="flex-column mt-5 allText">
               <Nav.Item>
-                <Nav.Link eventKey="first"  >Create Account</Nav.Link>
+                <Nav.Link eventKey="first"  className="headerText tabBtn mb-4">Create Account</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second">Create Cohort</Nav.Link>
+                <Nav.Link eventKey="second" className="headerText tabBtn mb-4">Create Cohort</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="third" >Edit Cohort</Nav.Link>
+                <Nav.Link eventKey="third" className="headerText tabBtn mb-4">Edit Cohort</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="fourth">View All Users</Nav.Link>
+                <Nav.Link eventKey="fourth" className="headerText tabBtn mb-4">View All Users/Mark Complete</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>
@@ -46,6 +46,7 @@ const AdminPage = () => {
           </Col>
         </Row>
       </Tab.Container>
+      </Container>
     </>
   );
 };
