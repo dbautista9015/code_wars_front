@@ -21,7 +21,7 @@ const AdminPage = () => {
                 <Nav.Link eventKey="second">Create Cohort</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="third">Edit Cohort</Nav.Link>
+                <Nav.Link eventKey="third" >Edit Cohort</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="fourth">View All Users</Nav.Link>
@@ -36,7 +36,7 @@ const AdminPage = () => {
               <Tab.Pane eventKey="second">
                 <CreateCohortComponent />
               </Tab.Pane>
-              <Tab.Pane eventKey="third">
+              <Tab.Pane eventKey="third" className="align-items-center">
                 <EditCohortComponent />
               </Tab.Pane>
               <Tab.Pane eventKey="fourth">
