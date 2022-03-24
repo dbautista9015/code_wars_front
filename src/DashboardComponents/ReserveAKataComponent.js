@@ -3,8 +3,11 @@ import { Container, Row, Col, Form, Button, Tab, Nav, InputGroup, FormControl, T
 import UserContext from '../Context/UserContext';
 import { GetCodeChallenge, CreateReservation, GetReservationsByUsername } from '../Services/DataService';
 import { useUser } from '../Hooks/use-user';
+import { useNavigate } from 'react-router-dom';
 
 export default function ReserveAKataComponent() {
+
+    let navigate = useNavigate();
     
     let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
 
@@ -17,6 +20,10 @@ export default function ReserveAKataComponent() {
 
     useEffect(async () => {
 
+        if (token == null) {
+            navigate("/login");
+         }
+
         let allUserReservations = await GetReservationsByUsername(codewarsName);
         
         let currentReservations = allUserReservations.filter(reservation => !reservation.isDeleted && !reservation.isCompleted)
@@ -26,6 +33,11 @@ export default function ReserveAKataComponent() {
     const handleSubmit = async () => {
 
         let result = await GetCodeChallenge(searchedKata);
+        // if (result == false) {
+        //     console.log(result);
+        //     let wickedHere = document.getElementById("wickedHere");
+        //     wickedHere.classList.add("shake");
+        // }
         setFetchedKata(result);
         setFetchedKataLanguages(result.languages);
         console.log(result);
@@ -61,8 +73,6 @@ export default function ReserveAKataComponent() {
             await setFetchedKata("");
         }
     }
-
-    let wickedHere = document.getElementById("wickedHere");
 
   return (
     <>
