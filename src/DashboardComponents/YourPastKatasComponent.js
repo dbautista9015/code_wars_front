@@ -3,15 +3,12 @@ import { Container, Row, Col, Form, Button, Tab, Nav, Table } from 'react-bootst
 import UserContext from '../Context/UserContext';
 import { useUser } from '../Hooks/use-user';
 import { useNavigate } from 'react-router-dom';
-import {GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChallenge, ChangeReservationStatus } from '../Services/DataService'
+import {GetReservationsByUsername } from '../Services/DataService'
 
 export default function YourPastKatasComponent() {
 
-    let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas } = useContext(UserContext);
+    let { codewarsName, token, reservedKatas, setReservedKatas } = useContext(UserContext);
     let navigate = useNavigate();
-
-    const [codewarsKata, setCodewarsKata] = useState([]);
-    const [reservedKata, setReservedKata] = useState([]);
 
 useEffect(async () => {
     if (token == null) {
