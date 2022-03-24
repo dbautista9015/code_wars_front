@@ -51,6 +51,7 @@ useEffect(async () => {
                                 </thead>
                                 <tbody>
                                     {
+                                        reservedKatas.length!=0?
                                         reservedKatas.map((kata, idx)=>{
                                         return(
                                             kata.isDeleted?
@@ -63,6 +64,8 @@ useEffect(async () => {
                                     :null
 
                                         )})
+                                        :
+                                        "You do not have any past reservations"
                                     }
                                    
                                 

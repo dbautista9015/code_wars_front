@@ -85,6 +85,7 @@ export default function YourCurrentKatasComponent() {
                                 </thead>
                                 <tbody>
                                     {
+                                        reservedKatas.length!=0?
                                         reservedKatas.map((kata, idx)=> {
                                             
                                             return(
@@ -98,6 +99,8 @@ export default function YourCurrentKatasComponent() {
                                             )
                                            
                                         })
+                                        :
+                                        "You do not have any reservations"
                                     }
                                   
                                    
