@@ -16,10 +16,12 @@ const LoginPage = () => {
 
 
     const handleSubmit = async () => {
+
         let userData = {
             codewarsName,
             password: password,
         };
+
         console.log(userData);
 
         let fetchedToken = await UserLogin(userData);
@@ -28,13 +30,14 @@ const LoginPage = () => {
         if (fetchedToken.token != null) {
             localStorage.setItem('Token', fetchedToken.token);
             let userInfo = await GetUserByUsername(userData.codewarsName)
+            setCohortName(userInfo.cohortName);
             console.log(userInfo);
             setIsAdmin(userInfo.isAdmin);
             setToken(localStorage.getItem('Token'));
             if (userInfo.isAdmin) {
                 navigate("/admin");
             } else {
-                navigate("/dashboard");
+                navigate("/");
             }
         } else {
             // Do something

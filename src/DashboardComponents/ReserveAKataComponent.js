@@ -1,7 +1,55 @@
-import React from 'react'
-import { Container, Row, Col, Form, Button, Tab, Nav } from 'react-bootstrap';
+import React, {useState, useContext, useEffect } from 'react'
+import { Container, Row, Col, Form, Button, Tab, Nav, InputGroup, FormControl } from 'react-bootstrap';
+import UserContext from '../Context/UserContext';
+import { GetCodeChallenge, CreateReservation, GetReservationsByUsername } from '../Services/DataService';
+import { useUser } from '../Hooks/use-user';
 
 export default function ReserveAKataComponent() {
+    
+    let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken } = useContext(UserContext);
+
+    const [searchedKata, setSearchedKata] = useState("");
+    const [fetchedKata, setFetchedKata] = useState([]);
+    const [fetchedKataLanguages, setFetchedKataLanguages] = useState([]);
+    const [languageChosen, setLanguageChosen] = useState("");
+    const [numberOfReservations, setNumberOfReservations] = useState([]);
+
+    const handleSubmit = async () => {
+
+        let result = await GetCodeChallenge(searchedKata);
+        setFetchedKata(result);
+        setFetchedKataLanguages(result.languages);
+        console.log(result);
+    }
+
+    const handleReserve = async (fetchedKata) => {
+
+        console.log(languageChosen.toString());
+
+        let newReservation = {
+            id: 0,
+            kataId: fetchedKata.id,
+            codewarsName: codewarsName,
+            cohortName: cohortName,
+            kataName: fetchedKata.name,
+            kataLevel: fetchedKata.rank.name,
+            kataLink: fetchedKata.url,
+            kataLanguage: languageChosen,
+            dateAdded: new Date(),
+            isCompleted: false,
+            isDeleted: false
+        };
+
+        console.log(newReservation);
+        CreateReservation(newReservation);
+    }
+
+    useEffect(async () => {
+        setNumberOfReservations(await GetReservationsByUsername(codewarsName));
+        // console.log(numberOfReservations);
+    }, []);
+
+
   return (
     <>
         <Container className=''>
@@ -9,40 +57,73 @@ export default function ReserveAKataComponent() {
                 <Col className='grayCardBg mt-5 pt-4 pb-2 roundedCorners'>
                     <Row>
                         <Col md={6} className=' '>
-                            <Form.Group className="mb-3" controlId="formBasicSearch">
+                            {numberOfReservations.length <= 3 ? 
+                                <>
                                 <Form.Label className="searchKataText headerText">Reserve Your Next Kata</Form.Label>
-                                <Form.Control className='searchBarBg loginForm loginFormText' type="username" placeholder="Enter kata URL" />
-                            </Form.Group>
-                            <div className='d-flex mt-4'>
-                                <p className='dashboardSlugTitle headerText'>Challenge name:</p>
-                                <p className='dashboardSlugText ms-2 allText'>Make a spiral</p>
-                            </div>
-                            <div className='d-flex'>
-                                <p className='dashboardSlugTitle headerText'>Level:</p>
-                                <p className='dashboardSlugText ms-2 allText' >3 kyu</p>
-                            </div>
-                            <div className='d-flex'>
-                                <p className='dashboardSlugTitle headerText'>Category:</p>
-                                <p className='dashboardSlugText ms-2 allText'>Algorithms</p>
-                            </div>
-                            <div className='d-flex justify-content-center'>
-                            <Button className='allText reservationBtn mt-3 mb-3' variant="success" type="submit">
-                                Reserve challenge
-                            </Button>
+                                <InputGroup className="mb-3">
+                                    <FormControl
+                                    aria-label="Example text with button addon"
+                                    aria-describedby="basic-addon1"
+                                    className='searchBarBg loginForm loginFormText'
+                                    placeholder="Enter kata URL" 
+                                    onChange={({ target: { value } }) => setSearchedKata(value)}
+                                    />
+                                    <Button variant="outline-secondary" id="button-addon1"
+                                    onClick={handleSubmit}>
+                                    Search 🔎
+                                    </Button>
+                                </InputGroup>
+                                </>
+                                : 
+                                <>
+                                <Form.Label className="searchKataText headerText">You're out of reservations</Form.Label>
+                                <p className='allText loginFormText'>Check your current reservations on the left-side navigation.</p>
+                                </>
+                            }   
+                        </Col>
+                        <Col md={6}></Col>
 
-                            </div>
-                        </Col>
-                   
-                        <Col md={6} className=''>
-                            <div className=''>
-                                <p className='dashboardSlugTitle headerText'>Description:</p>
-                                <p className='dashboardDescText p-3 scrollFeature allText'>Your task, is to create a NxN spiral with a given `size`.  For example, spiral with size 5 should look like this:  ``` 00000 ....0 000.0 0...0 00000 ```  and with the size 10:  ``` 0000000000/n.........0 00000000.0 0......0.0 0.0000.0.0 0.0..0.0.0 0.0....0.0 0.000000.0 0........0 0000000000 ```  Return value should contain array of arrays, of `0` and `1`, with the first row being composed of `1`s. For example for given size `5` result should be:   ```javascript [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```rust [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```julia [1 1 1 1 1; 0 0 0 0 1; 1 1 1 0 1; 1 0 0 0 1; 1 1 1 1 1] ```  Because of the edge-cases for tiny spirals, the size will be at least 5.  General rule-of-a-thumb is, that the snake made with '1' cannot touch to itself. "
-                                
-                                our task, is to create a NxN spiral with a given `size`.  For example, spiral with size 5 should look like this:  ``` 00000 ....0 000.0 0...0 00000 ```  and with the size 10:  ``` 0000000000/n.........0 00000000.0 0......0.0 0.0000.0.0 0.0..0.0.0 0.0....0.0 0.000000.0 0........0 0000000000 ```  Return value should contain array of arrays, of `0` and `1`, with the first row being composed of `1`s. For example for given size `5` result should be:   ```javascript [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```rust [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```julia [1 1 1 1 1; 0 0 0 0 1; 1 1 1 0 1; 1 0 0 0 1; 1 1 1 1 1] ```  Because of the edge-cases for tiny spirals, the size will be at least 5.  General rule-of-a-thumb is, that the snake made with '1' cannot touch to itself. "
-                                
-                                our task, is to create a NxN spiral with a given `size`.  For example, spiral with size 5 should look like this:  ``` 00000 ....0 000.0 0...0 00000 ```  and with the size 10:  ``` 0000000000/n.........0 00000000.0 0......0.0 0.0000.0.0 0.0..0.0.0 0.0....0.0 0.000000.0 0........0 0000000000 ```  Return value should contain array of arrays, of `0` and `1`, with the first row being composed of `1`s. For example for given size `5` result should be:   ```javascript [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```rust [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```julia [1 1 1 1 1; 0 0 0 0 1; 1 1 1 0 1; 1 0 0 0 1; 1 1 1 1 1] ```  Because of the edge-cases for tiny spirals, the size will be at least 5.  General rule-of-a-thumb is, that the snake made with '1' cannot touch to itself. ",</p>
-                            </div>
-                        </Col>
+                        {fetchedKata.length !== 0 ? 
+                            <>
+                                <Col md={6} className=''>
+                                    <div className='d-flex mt-5'>
+                                        <p className='dashboardSlugTitle headerText'>Challenge name:</p>
+                                        <p className='dashboardSlugText ms-2 allText'>{fetchedKata.name}</p>
+                                    </div>
+                                    <div className='d-flex'>
+                                        <p className='dashboardSlugTitle headerText'>Level:</p>
+                                        <p className='dashboardSlugText ms-2 allText' >{fetchedKata.rank.name}</p>
+                                    </div>
+                                    <Col md={5}>
+                                        <div className=''>
+                                            {/* <p className='dashboardSlugTitle headerText'>Languages:</p>
+                                            <p className='dashboardSlugText ms-2 allText'>{fetchedKataLanguages}</p> */}
+                                            <Form.Select className='searchBarBg loginFormText' aria-label="Default select example">
+                                                <option>Select language</option>
+                                                {
+                                                    fetchedKataLanguages.map((language, idx) => 
+                                                        <option className='allText searchKataText' key={idx} value={language} onChange={({ target: { value } }) => setLanguageChosen(value)}>{language}</option>
+                                                    )
+                                                }
+                                            </Form.Select>
+                                        </div>
+                                    </Col>
+                                    <Col className=''>
+                                        <Button className='mt-5 reserveBtn allText reservationBtn mt-3 mb-3' variant="success"
+                                        onClick={() => handleReserve(fetchedKata)}>
+                                            Reserve challenge
+                                        </Button>
+                                    </Col>
+                                </Col>
+                                <Col md={6} className='mt-2'>
+                                    <div className=''>
+                                        <p className='dashboardSlugTitle headerText'>Description:</p>
+                                        <p className='dashboardDescText p-3 scrollFeature allText'>{fetchedKata.description}</p>
+                                    </div>
+                                </Col>
+                            </> 
+                            : null
+                        }
                     </Row>
                 </Col>
             </Row>
