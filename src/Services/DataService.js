@@ -240,6 +240,23 @@ async function ChangeReservationCompletedStatus(id){
    return data;
 }
 
+async function ChangeReservationStatus(id){
+    let res= await fetch(`https://mycodewars.azurewebsites.net/Reserve/ChangeReservationStatus/${id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify()
+    });
+    if(!res.ok)
+    {
+        const message = `An Error has Occured ${res.status}`
+        throw new Error (message)
+    }
+    let data = await res.json();
+   return data;
+}
+
 async function GetAllReservations(){
     let res = await fetch('https://mycodewars.azurewebsites.net/Reserve/GetAllReservations');
     let data = await res.json();
@@ -329,4 +346,4 @@ async function GetCodeChallenge(id) {
 
 
 
-export { UserLogin, GetUserByUsername, AddCohort, GetAllCohorts, GetCohortById, GetArchivedCohorts, ArchiveByCohortName, DeleteByCohortName, UpdateCohortLvlDifficulty, EditCohortName, AddCompletedKata, GetAllCompletedKatas, GetCompletedKatasByCohortId, GetCompletedKatasByCodewarsName, GetReservedKatasByKataLanguage, GetReservedKatasByCohortId, GetAllCompletedKatasByCohortId, GetAllCompletedKataReservations, GetReservationsByUsername, GetReservationById, GetAllReservations, ChangeReservationCompletedStatus, CreateReservation, GetUsersByCohort, ChangeAdminStatus, EditCohortForUser, DeleteUser, AddUser, GetCodeChallenge };
+export { UserLogin, GetUserByUsername, AddCohort, GetAllCohorts, GetCohortById, GetArchivedCohorts, ArchiveByCohortName, DeleteByCohortName, UpdateCohortLvlDifficulty, EditCohortName, AddCompletedKata, GetAllCompletedKatas, GetCompletedKatasByCohortId, GetCompletedKatasByCodewarsName, GetReservedKatasByKataLanguage, GetReservedKatasByCohortId, GetAllCompletedKatasByCohortId, GetAllCompletedKataReservations, GetReservationsByUsername, GetReservationById, GetAllReservations, ChangeReservationCompletedStatus,ChangeReservationStatus, CreateReservation, GetUsersByCohort, ChangeAdminStatus, EditCohortForUser, DeleteUser, AddUser, GetCodeChallenge };

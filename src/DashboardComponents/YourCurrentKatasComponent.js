@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button, Tab, Nav, Table } from 'react-bootst
 import UserContext from '../Context/UserContext';
 import { useUser } from '../Hooks/use-user';
 import { useNavigate } from 'react-router-dom';
-import {GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChallenge } from '../Services/DataService'
+import {GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChallenge, ChangeReservationStatus } from '../Services/DataService'
 
 
 
@@ -14,6 +14,7 @@ export default function YourCurrentKatasComponent() {
         let navigate = useNavigate();
 
         const [codewarsKata, setCodewarsKata] = useState([]);
+        const [reservedKata, setReservedKata] = useState([]);
 
     useEffect(async () => {
         if (token == null) {
@@ -25,31 +26,30 @@ export default function YourCurrentKatasComponent() {
             if(reservations.length !=0)
             {
                 setReservedKatas(reservations)
+              
             }
         }
         
     }, []);
 
-
-    const handleClick = () => {
-        // Open current reservation clicked
-    }
-
-    const handleKataInformation = async (id) => 
+    const handleKataInformation = async (kata) => 
     {
-        
-        let kata = await GetCodeChallenge(id)
+      
         console.log(kata)
-        if (kata.length !=0)
+        let kataInfo = await GetCodeChallenge(kata.kataId)
+        console.log(kataInfo)
+        if (kataInfo.length !=0)
         {
-            setCodewarsKata(kata)
+            setCodewarsKata(kataInfo)  
+            setReservedKata(kata)
         }
 
     }
 
     const handleUnreserveKata = async (id) => 
-    {
-        let result =  await ChangeReservationCompletedStatus(id)
+    {   console.log(id)
+        let result =  await ChangeReservationStatus(id)
+        console.log(result)
         if (result.length !=0)
         {
             let reservations = await GetReservationsByUsername(codewarsName)
@@ -86,14 +86,15 @@ export default function YourCurrentKatasComponent() {
                                 <tbody>
                                     {
                                         reservedKatas.map((kata, idx)=> {
+                                            
                                             return(
-
+                                            !kata.isDeleted?
                                                  <tr key={idx}>
                                               <td>{kata.kataLevel}</td>
-                                    <td onClick={()=> {handleKataInformation(kata.kataId)}}>{kata.kataName}</td>
+                                    <td onClick={()=> {handleKataInformation(kata)}}>{kata.kataName}</td>
                                     <td><p className="redText">{kata.isCompleted?"Completed": "Not Completed"}</p></td>
                                     <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" type="submit" onClick={()=> {handleUnreserveKata(kata.id)}}>Unreserve</Button></td>       
-                                            </tr>
+                                            </tr>:null
                                             )
                                            
                                         })
@@ -104,24 +105,30 @@ export default function YourCurrentKatasComponent() {
                             </Table>
                         </Col>
                         <Col md={12} className='mt-4'>
-                        <div className='d-flex mt-4'>
+                       
+                            {
+                                codewarsKata.length!=0?
+                                <>
+                                 <div className='d-flex mt-4'>
                                 <p className='dashboardSlugTitle headerText'>Challenge name:</p>
                                 <p className='dashboardSlugText ms-2 allText'>{codewarsKata.name}</p>
                                 <p className='dashboardSlugTitle ms-5 headerText'>Level:</p>
                                 <p className='dashboardSlugText ms-2 allText' >{codewarsKata.rank.name}</p>
-                                <p className='dashboardSlugTitle ms-5 headerText'>Category:</p>
-                                <p className='dashboardSlugText ms-2 allText'>Algorithms</p>
+                                <p className='dashboardSlugTitle ms-5 headerText'>Language:</p>
+                                <p className='dashboardSlugText ms-2 allText'>{reservedKata.kataLanguage} </p>
                             </div>
                             <div className='d-flex mt-1'>
                                 <p className='dashboardSlugTitle me-5 headerText'>Description:</p>
                             </div>
                             <div className='d-flex '>
-                            <p className='dashboardDescText p-3 scrollFeature2 allText'>Your task, is to create a NxN spiral with a given `size`.  For example, spiral with size 5 should look like this:  ``` 00000 ....0 000.0 0...0 00000 ```  and with the size 10:  ``` 0000000000/n.........0 00000000.0 0......0.0 0.0000.0.0 0.0..0.0.0 0.0....0.0 0.000000.0 0........0 0000000000 ```  Return value should contain array of arrays, of `0` and `1`, with the first row being composed of `1`s. For example for given size `5` result should be:   ```javascript [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```rust [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```julia [1 1 1 1 1; 0 0 0 0 1; 1 1 1 0 1; 1 0 0 0 1; 1 1 1 1 1] ```  Because of the edge-cases for tiny spirals, the size will be at least 5.  General rule-of-a-thumb is, that the snake made with '1' cannot touch to itself. "
+                            <p className='dashboardDescText p-3 scrollFeature2 allText'>{codewarsKata.description}</p>
+                             </div>
+                             </>
+                             :
+                             null
+                            }
                                 
-                                our task, is to create a NxN spiral with a given `size`.  For example, spiral with size 5 should look like this:  ``` 00000 ....0 000.0 0...0 00000 ```  and with the size 10:  ``` 0000000000/n.........0 00000000.0 0......0.0 0.0000.0.0 0.0..0.0.0 0.0....0.0 0.000000.0 0........0 0000000000 ```  Return value should contain array of arrays, of `0` and `1`, with the first row being composed of `1`s. For example for given size `5` result should be:   ```javascript [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```rust [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```julia [1 1 1 1 1; 0 0 0 0 1; 1 1 1 0 1; 1 0 0 0 1; 1 1 1 1 1] ```  Because of the edge-cases for tiny spirals, the size will be at least 5.  General rule-of-a-thumb is, that the snake made with '1' cannot touch to itself. "
-                                
-                                our task, is to create a NxN spiral with a given `size`.  For example, spiral with size 5 should look like this:  ``` 00000 ....0 000.0 0...0 00000 ```  and with the size 10:  ``` 0000000000/n.........0 00000000.0 0......0.0 0.0000.0.0 0.0..0.0.0 0.0....0.0 0.000000.0 0........0 0000000000 ```  Return value should contain array of arrays, of `0` and `1`, with the first row being composed of `1`s. For example for given size `5` result should be:   ```javascript [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```rust [[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]] ``` ```julia [1 1 1 1 1; 0 0 0 0 1; 1 1 1 0 1; 1 0 0 0 1; 1 1 1 1 1] ```  Because of the edge-cases for tiny spirals, the size will be at least 5.  General rule-of-a-thumb is, that the snake made with '1' cannot touch to itself. ",</p>
-                            </div>
+                           
                         </Col>
                     </Row>
                 </Col>
