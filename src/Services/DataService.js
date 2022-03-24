@@ -324,6 +324,13 @@ async function GetCompletedKatasByCodewarsName(codewarsName){
 async function GetCodeChallenge(id) {
     let res = await fetch(`https://www.codewars.com/api/v1/code-challenges/${id}`);
     let data = await res.json();
+
+    if(!res.ok)
+    {
+        const message = `An Error has Occured ${res.status}`
+        throw new Error (message)
+    }
+    
     return data;
 }
 

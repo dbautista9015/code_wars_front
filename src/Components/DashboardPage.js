@@ -13,10 +13,11 @@ export default function DashboardPage() {
     let { token } = useContext(UserContext);
 
     useEffect(() => {
-        
+
         if (token == null) {
             navigate("/login");
         }
+        
     }, []);
 
   return (

@@ -10,7 +10,7 @@ const NavbarComponent = () => {
     const [token, setToken] = useState("");
 
     useEffect(() => {
-
+        
         setToken(localStorage.getItem('Token'));
         console.log(localStorage.getItem('Token'));
         
