@@ -115,26 +115,6 @@ export default function CreateCohortComponent() {
         </Row>
 
       </Container>
-
-
-
-
-
-      {/* ListGroup as="ul">
-              {allSpecialist.map((user, idx) => {
-                return (
-                  <ListGroup.Item
-                    key={user}
-                    action
-                    as="li"
-                    onClick={(e) => addUserToArrayId(e, user.id, user.username)}
-                  >
-                    {user.fullName}
-                  </ListGroup.Item>
-                );
-              })}
-            </ListGroup> */}
-
     </>
   );
 }
