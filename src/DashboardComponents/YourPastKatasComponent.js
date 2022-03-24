@@ -65,7 +65,7 @@ useEffect(async () => {
 
                                         )})
                                         :
-                                        "You do not have any past reservations"
+                                       <tr><td>You do not have any past reservations</td></tr> 
                                     }
                                    
                                 
