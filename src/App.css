@@ -156,3 +156,7 @@
   background-color:#1e1f20 !important;
   color: #A7A7A8 !important;
 }
+
+.pointer{
+  cursor: pointer;
+}
