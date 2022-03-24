@@ -3,7 +3,7 @@ import { Form, FloatingLabel, ListGroup, Row, Col, Container, Button } from "rea
 export default function CreateCohortComponent() {
   return (
     <>
-    <Container>
+    <Container className='grayCardBg mt-5 pt-4 pb-4 roundedCorners'>
       <Row>
         <Col sm={3}>
         <h3 className="headerText text-end" style={{ color: "white" }}>
@@ -15,7 +15,7 @@ export default function CreateCohortComponent() {
         <Col sm={6}>
         <FloatingLabel
         controlId="floatingInput"
-        label="Enter Cohort's name"
+        label="Example: Season 1 Cohort"
         className="mb-3 allText "
         style={{ color: "white" }}
       >

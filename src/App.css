@@ -129,7 +129,7 @@
 }
 
 .listGroupBG{
-  background-color: #262729 !important;
+  background-color:#222325 !important;
   color: #A7A7A8 !important;
 }
 
@@ -147,7 +147,13 @@
 }
 
 .accordion-button{
-  background-color: #262729 !important;
+  background-color: #222325 !important;
   color: #A7A7A8 !important;
   border-color: #171719 !important;
+}
+
+.allUsersInCohort{
+  background-color:#1e1f20 !important;
+  color: #A7A7A8 !important;
+
 }
