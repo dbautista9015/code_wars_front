@@ -1,10 +1,64 @@
-import React from 'react'
+import React, {useEffect, useContext, useState} from 'react'
 import { Container, Row, Col, Form, Button, Tab, Nav, Table } from 'react-bootstrap';
+import UserContext from '../Context/UserContext';
+import { useUser } from '../Hooks/use-user';
+import { useNavigate } from 'react-router-dom';
+import {GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChallenge } from '../Services/DataService'
+
+
+
 
 export default function YourCurrentKatasComponent() {
 
+        let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas } = useContext(UserContext);
+        let navigate = useNavigate();
+
+        const [codewarsKata, setCodewarsKata] = useState([]);
+
+    useEffect(async () => {
+        if (token == null) {
+           navigate("/login");
+        }
+        else{
+            let reservations = await GetReservationsByUsername(codewarsName)
+            console.log(reservations)
+            if(reservations.length !=0)
+            {
+                setReservedKatas(reservations)
+            }
+        }
+        
+    }, []);
+
+
     const handleClick = () => {
         // Open current reservation clicked
+    }
+
+    const handleKataInformation = async (id) => 
+    {
+        
+        let kata = await GetCodeChallenge(id)
+        console.log(kata)
+        if (kata.length !=0)
+        {
+            setCodewarsKata(kata)
+        }
+
+    }
+
+    const handleUnreserveKata = async (id) => 
+    {
+        let result =  await ChangeReservationCompletedStatus(id)
+        if (result.length !=0)
+        {
+            let reservations = await GetReservationsByUsername(codewarsName)
+            console.log(reservations)
+            if(reservations.length !=0)
+            {
+                setReservedKatas(reservations)
+            }
+        }
     }
 
   return (
@@ -30,33 +84,31 @@ export default function YourCurrentKatasComponent() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                    <td>3 Kyu</td>
-                                    <td>Calculate Angel's Salary</td>
-                                    <td><p className="redText">Not completed</p></td>
-                                    <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" type="submit">Unreserve</Button></td>
-                                    </tr>
-                                    <tr>
-                                    <td>5 Kyu</td>
-                                    <td>Calculate Angel's Salary</td>
-                                    <td><p className="greenText">Completed</p></td>
-                                    <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" type="submit">Unreserve</Button></td>
-                                    </tr>
-                                    <tr>
-                                    <td>6 Kyu</td>
-                                    <td>Calculate Angel's Salary</td>
-                                    <td><p className="greenText">Completed</p></td>
-                                    <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" type="submit">Unreserve</Button></td>
-                                    </tr>
+                                    {
+                                        reservedKatas.map((kata, idx)=> {
+                                            return(
+
+                                                 <tr key={idx}>
+                                              <td>{kata.kataLevel}</td>
+                                    <td onClick={()=> {handleKataInformation(kata.kataId)}}>{kata.kataName}</td>
+                                    <td><p className="redText">{kata.isCompleted?"Completed": "Not Completed"}</p></td>
+                                    <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" type="submit" onClick={()=> {handleUnreserveKata(kata.id)}}>Unreserve</Button></td>       
+                                            </tr>
+                                            )
+                                           
+                                        })
+                                    }
+                                  
+                                   
                                 </tbody>
                             </Table>
                         </Col>
                         <Col md={12} className='mt-4'>
                         <div className='d-flex mt-4'>
                                 <p className='dashboardSlugTitle headerText'>Challenge name:</p>
-                                <p className='dashboardSlugText ms-2 allText'>Make a spiral</p>
+                                <p className='dashboardSlugText ms-2 allText'>{codewarsKata.name}</p>
                                 <p className='dashboardSlugTitle ms-5 headerText'>Level:</p>
-                                <p className='dashboardSlugText ms-2 allText' >3 kyu</p>
+                                <p className='dashboardSlugText ms-2 allText' >{codewarsKata.rank.name}</p>
                                 <p className='dashboardSlugTitle ms-5 headerText'>Category:</p>
                                 <p className='dashboardSlugText ms-2 allText'>Algorithms</p>
                             </div>
