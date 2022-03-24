@@ -1,31 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Container, Row, Col, Form, Button, Toast, ToastContainer } from 'react-bootstrap';
 import { UserLogin, GetUserByUsername } from '../Services/DataService'
+import UserContext from '../Context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
 
-    const [username, setUsername] = useState("");
+    let navigate = useNavigate();
+
     const [password, setPassword] = useState("");
     const [showA, setShowA] = useState(false);
     const toggleShowA = () => setShowA(!showA);
 
+    let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken } = useContext(UserContext);
+
+
     const handleSubmit = async () => {
         let userData = {
-            codewarsName: username,
+            codewarsName,
             password: password,
         };
         console.log(userData);
 
-        let token = await UserLogin(userData);
-        console.log(token);
+        let fetchedToken = await UserLogin(userData);
+        console.log(fetchedToken);
 
-        if (token.token != null) {
-            localStorage.setItem('Token', token.token);
-            let userInfo = GetUserByUsername(userData.username)
+        if (fetchedToken.token != null) {
+            localStorage.setItem('Token', fetchedToken.token);
+            let userInfo = await GetUserByUsername(userData.codewarsName)
             console.log(userInfo);
-            // navigate("");
+            setIsAdmin(userInfo.isAdmin);
+            setToken(localStorage.getItem('Token'));
+            if (userInfo.isAdmin) {
+                navigate("/admin");
+            } else {
+                navigate("/dashboard");
+            }
         } else {
             // Do something
+            toggleShowA();
         }
     }
 
@@ -43,7 +56,7 @@ const LoginPage = () => {
                             <div className='ms-3 me-3'>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                     {/* <Form.Label className='allText enterUsernameLoginText'>Codewars username</Form.Label> */}
-                                    <Form.Control className='loginForm loginFormText' type="username" placeholder="Codewars username" onChange={({ target: { value } }) => setUsername(value)}/>
+                                    <Form.Control className='loginForm loginFormText' type="username" placeholder="Codewars username" onChange={({ target: { value } }) => setCodewarsName(value)}/>
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -65,7 +78,7 @@ const LoginPage = () => {
                     </Col>
                 </Row>
             </Container >
-            <ToastContainer position="middle-center">
+            <ToastContainer position="top-center">
                 <Toast show={showA} onClose={toggleShowA}>
                 <Toast.Header>
                     <img

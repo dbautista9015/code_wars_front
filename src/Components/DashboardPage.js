@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Container, Row, Col, Form, Button, Tab, Nav } from 'react-bootstrap';
 import ReserveAKataComponent from '../DashboardComponents/ReserveAKataComponent';
 import YourCurrentKatasComponent from '../DashboardComponents/YourCurrentKatasComponent';
 import YourPastKatasComponent from '../DashboardComponents/YourPastKatasComponent';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../Hooks/use-user';
+import UserContext from '../Context/UserContext';
 
 export default function DashboardPage() {
+
+    let navigate = useNavigate();
+    let { token } = useContext(UserContext);
+
+    useEffect(() => {
+        
+        if (token == null) {
+            navigate("/login");
+        }
+    }, []);
+
   return (
     <>
         <Container fluid>

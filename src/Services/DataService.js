@@ -9,11 +9,6 @@ async function UserLogin(userData){
         },
         body: JSON.stringify(userData)
     });
-    if(!res.ok)
-    {
-        const message = `An Error has Occured ${res.status}`
-        throw new Error (message)
-    }
     let data = await res.json();
    return data;
 
