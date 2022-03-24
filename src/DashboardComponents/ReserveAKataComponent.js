@@ -42,7 +42,7 @@ export default function ReserveAKataComponent() {
             kataLevel: fetchedKata.rank.name.split(' ')[0],
             kataLink: fetchedKata.url,
             kataLanguage: languageChosen,
-            dateAdded: new Date(),
+            dateAdded: (new Date()).toLocaleDateString('en-US'),
             isCompleted: false,
             isDeleted: false
         };
