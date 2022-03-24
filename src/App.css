@@ -164,3 +164,6 @@
 .kataName {
   font-weight: bold;
 }
+.pointer{
+  cursor: pointer;
+}

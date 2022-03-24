@@ -97,13 +97,13 @@ export default function YourCurrentKatasComponent() {
                                               <td>{kata.kataLevel}</td>
                                     <td onClick={()=> {handleKataInformation(kata)}}>{kata.kataName}</td>
                                     <td><p className="redText">{kata.isCompleted?"Completed": "Not Completed"}</p></td>
-                                    <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" type="submit" onClick={()=> {handleUnreserveKata(kata.id)}}>Unreserve</Button></td>       
+                                    <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" onClick={()=> {handleUnreserveKata(kata.id)}}>Unreserve</Button></td>       
                                             </tr>:null
                                             )
                                            
                                         })
                                         :
-                                        "You do not have any reservations"
+                                        <tr><td>"You do not have any reservations"</td></tr>
                                     }
                                   
                                    

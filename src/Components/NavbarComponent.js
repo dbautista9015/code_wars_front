@@ -12,7 +12,7 @@ const NavbarComponent = () => {
     useEffect(() => {
         
         setToken(localStorage.getItem('Token'));
-        console.log(localStorage.getItem('Token'));
+        //console.log(localStorage.getItem('Token'));
         
     }, []);
 
