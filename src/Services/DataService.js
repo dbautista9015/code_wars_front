@@ -99,11 +99,11 @@ async function GetUsersByCohort(cohortName){
     return data;
 }
 
-async function GetUserByUsername(cohortName){
-    let res = await fetch(`https://mycodewars.azurewebsites.net/User/GetUserByUsername/${cohortName}`);
-    let data = await res.json();
-    return data;
-}
+// async function GetUserByUsername(cohortName){
+//     let res = await fetch(`https://mycodewars.azurewebsites.net/User/GetUserByUsername/${cohortName}`);
+//     let data = await res.json();
+//     return data;
+// }
 
 
 //cohorts
