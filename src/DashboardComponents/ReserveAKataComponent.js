@@ -1,18 +1,27 @@
 import React, {useState, useContext, useEffect } from 'react'
-import { Container, Row, Col, Form, Button, Tab, Nav, InputGroup, FormControl } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Tab, Nav, InputGroup, FormControl, Toast, ToastContainer } from 'react-bootstrap';
 import UserContext from '../Context/UserContext';
 import { GetCodeChallenge, CreateReservation, GetReservationsByUsername } from '../Services/DataService';
 import { useUser } from '../Hooks/use-user';
 
 export default function ReserveAKataComponent() {
     
-    let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken } = useContext(UserContext);
+    let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
 
     const [searchedKata, setSearchedKata] = useState("");
     const [fetchedKata, setFetchedKata] = useState([]);
     const [fetchedKataLanguages, setFetchedKataLanguages] = useState([]);
     const [languageChosen, setLanguageChosen] = useState("");
-    const [numberOfReservations, setNumberOfReservations] = useState([]);
+    const [showA, setShowA] = useState(false);
+    const toggleShowA = () => setShowA(!showA);
+
+    useEffect(async () => {
+
+        let allUserReservations = await GetReservationsByUsername(codewarsName);
+        
+        let currentReservations = allUserReservations.filter(reservation => !reservation.isDeleted && !reservation.isCompleted)
+        setNumberOfReservations(currentReservations);
+    }, []);
 
     const handleSubmit = async () => {
 
@@ -24,10 +33,8 @@ export default function ReserveAKataComponent() {
 
     const handleReserve = async (fetchedKata) => {
 
-        console.log(languageChosen.toString());
-
         let newReservation = {
-            id: 0,
+            id: 0,  
             kataId: fetchedKata.id,
             codewarsName: codewarsName,
             cohortName: cohortName,
@@ -35,20 +42,25 @@ export default function ReserveAKataComponent() {
             kataLevel: fetchedKata.rank.name,
             kataLink: fetchedKata.url,
             kataLanguage: languageChosen,
-            dateAdded: new Date(),
+            dateAdded: (new Date()).toLocaleDateString('en-US'),
             isCompleted: false,
             isDeleted: false
         };
 
         console.log(newReservation);
-        CreateReservation(newReservation);
+        // CreateReservation(newReservation);
+
+        let result = await CreateReservation(newReservation);
+        if (result) {
+            let allUserReservations = await GetReservationsByUsername(codewarsName);
+            setReservedKatas(allUserReservations);
+    
+            let currentReservations = allUserReservations.filter(reservation => !reservation.isDeleted && !reservation.isCompleted)
+            setNumberOfReservations(currentReservations);
+            toggleShowA();
+            setFetchedKata(0);
+        }
     }
-
-    useEffect(async () => {
-        setNumberOfReservations(await GetReservationsByUsername(codewarsName));
-        // console.log(numberOfReservations);
-    }, []);
-
 
   return (
     <>
@@ -57,7 +69,7 @@ export default function ReserveAKataComponent() {
                 <Col className='grayCardBg mt-5 pt-4 pb-2 roundedCorners'>
                     <Row>
                         <Col md={6} className=' '>
-                            {numberOfReservations.length <= 3 ? 
+                            {numberOfReservations.length < 3 ? 
                                 <>
                                 <Form.Label className="searchKataText headerText">Reserve Your Next Kata</Form.Label>
                                 <InputGroup className="mb-3">
@@ -88,7 +100,7 @@ export default function ReserveAKataComponent() {
                                 <Col md={6} className=''>
                                     <div className='d-flex mt-5'>
                                         <p className='dashboardSlugTitle headerText'>Challenge name:</p>
-                                        <p className='dashboardSlugText ms-2 allText'>{fetchedKata.name}</p>
+                                        <p className='dashboardSlugText ms-2 allText kataName'>{fetchedKata.name}</p>
                                     </div>
                                     <div className='d-flex'>
                                         <p className='dashboardSlugTitle headerText'>Level:</p>
@@ -98,11 +110,12 @@ export default function ReserveAKataComponent() {
                                         <div className=''>
                                             {/* <p className='dashboardSlugTitle headerText'>Languages:</p>
                                             <p className='dashboardSlugText ms-2 allText'>{fetchedKataLanguages}</p> */}
-                                            <Form.Select className='searchBarBg loginFormText' aria-label="Default select example">
+                                            <Form.Select className='searchBarBg loginFormText' aria-label="Default select example"
+                                            onChange={({ target: { value } }) => setLanguageChosen(value)}>
                                                 <option>Select language</option>
                                                 {
                                                     fetchedKataLanguages.map((language, idx) => 
-                                                        <option className='allText searchKataText' key={idx} value={language} onChange={({ target: { value } }) => setLanguageChosen(value)}>{language}</option>
+                                                        <option className='allText searchKataText' key={idx} value={language}>{language}</option>
                                                     )
                                                 }
                                             </Form.Select>
@@ -124,6 +137,21 @@ export default function ReserveAKataComponent() {
                             </> 
                             : null
                         }
+
+                        <ToastContainer position="top-end">
+                            <Toast onClose={() => setShowA(false)} show={showA} delay={3000} autohide>
+                            <Toast.Header>
+                                <img
+                                src="holder.js/20x20?text=%20"
+                                className="rounded me-2"
+                                alt=""
+                                />
+                                <strong className="me-auto">Successfully added! ✅ </strong>
+                                <small>Just now</small>
+                            </Toast.Header>
+                            <Toast.Body>Woohoo, you got this challenge, I believe in you!</Toast.Body>
+                            </Toast>
+                        </ToastContainer>
                     </Row>
                 </Col>
             </Row>
