@@ -100,7 +100,7 @@ export default function YourCurrentKatasComponent() {
                                            
                                         })
                                         :
-                                        "You do not have any reservations"
+                                        <tr><td>"You do not have any reservations"</td></tr>
                                     }
                                   
                                    
