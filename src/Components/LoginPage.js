@@ -34,7 +34,7 @@ const LoginPage = () => {
             if (userInfo.isAdmin) {
                 navigate("/admin");
             } else {
-                navigate("/dashboard");
+                navigate("/");
             }
         } else {
             // Do something

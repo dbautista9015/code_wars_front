@@ -31,7 +31,7 @@
 }
 
 .loginFormText {
-  color: #71717a;
+  color: #71717a !important;
 }
 
 .center {
@@ -155,5 +155,4 @@
 .allUsersInCohort{
   background-color:#1e1f20 !important;
   color: #A7A7A8 !important;
-
 }
