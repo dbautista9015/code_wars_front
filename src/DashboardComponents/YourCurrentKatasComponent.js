@@ -10,7 +10,7 @@ import {GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChal
 
 export default function YourCurrentKatasComponent() {
 
-        let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas } = useContext(UserContext);
+        let { codewarsName, token, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
         let navigate = useNavigate();
 
         const [codewarsKata, setCodewarsKata] = useState([]);
@@ -22,7 +22,8 @@ export default function YourCurrentKatasComponent() {
         }
         else{
             let reservations = await GetReservationsByUsername(codewarsName)
-            console.log(reservations)
+            console.log(reservations);
+            console.log(codewarsName);
             if(reservations.length !=0)
             {
                 setReservedKatas(reservations)
@@ -57,6 +58,8 @@ export default function YourCurrentKatasComponent() {
             if(reservations.length !=0)
             {
                 setReservedKatas(reservations)
+                let currentReservations = reservations.filter(reservation => !reservation.isDeleted && !reservation.isCompleted)
+                setNumberOfReservations(currentReservations);
             }
         }
     }
