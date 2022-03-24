@@ -9,6 +9,7 @@ export default function CreateCohortComponent() {
   const [cohortLevel, setCohortLevel] = useState("");
   const [allUsers, setAllUsers] = useState([]);
 
+  const [tempArray, setTempArray] = useState("");
 
 
   const handleSubmit = async () => {
@@ -27,7 +28,9 @@ export default function CreateCohortComponent() {
   }
 
   const handleClick = async (e, cohortName) => {
-    //let updateCohortName = EditCohortForUser(codewarsName, cohortName);
+    let updateCohortName = await EditCohortForUser(setCohortName, cohortName);
+    setTempArray(updateCohortName.cohortName);
+    
   }
 
   useEffect(async () => {
@@ -101,7 +104,7 @@ export default function CreateCohortComponent() {
               {allUsers.map((user, idx) => {
                 return (
                   <ListGroup.Item key={user}  as="li" className="listGroupBG" onClick={(e) =>
-                    handleClick(e, user.cohortName)
+                    handleClick(e, user.codewarsName, user.cohortName)
                   }>{user.codewarsName}</ListGroup.Item>
                 )
               })}
