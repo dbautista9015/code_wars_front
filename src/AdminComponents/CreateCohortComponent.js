@@ -27,15 +27,17 @@ export default function CreateCohortComponent() {
     AddCohort(newCohort);
   }
 
-  const handleClick = async (e, cohortName) => {
-    let updateCohortName = await EditCohortForUser(setCohortName, cohortName);
+  const handleClick = async (e) => {
+    console.log(e.target.textContent);
+    let editUser = e.target.textContent;
+    let updateCohortName = await EditCohortForUser(editUser, cohortName);
     setTempArray(updateCohortName.cohortName);
     
   }
 
   useEffect(async () => {
     let allFetchedUsers = await GetAllUsers();
-    setAllUsers(allFetchedUsers.filter((user) => user.cohortName == "Select Cohort"))
+    setAllUsers(allFetchedUsers.filter((user) => user.cohortName == "Select Cohort" || user.cohortName == "undefined"))
     //console.log(allUsers);
   }, []);
 
