@@ -117,7 +117,7 @@ export default function YourCurrentKatasComponent() {
                                 <>
                                  <div className='d-flex mt-4'>
                                 <p className='dashboardSlugTitle headerText'>Challenge name:</p>
-                                <p className='dashboardSlugText ms-2 allText'>{codewarsKata.name}</p>
+                                <p className='dashboardSlugText ms-2 allText kataName'>{codewarsKata.name}</p>
                                 <p className='dashboardSlugTitle ms-5 headerText'>Level:</p>
                                 <p className='dashboardSlugText ms-2 allText' >{codewarsKata.rank.name}</p>
                                 <p className='dashboardSlugTitle ms-5 headerText'>Language:</p>

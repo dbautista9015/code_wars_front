@@ -39,7 +39,7 @@ export default function ReserveAKataComponent() {
             codewarsName: codewarsName,
             cohortName: cohortName,
             kataName: fetchedKata.name,
-            kataLevel: fetchedKata.rank.name,
+            kataLevel: fetchedKata.rank.name.split(' ')[0],
             kataLink: fetchedKata.url,
             kataLanguage: languageChosen,
             dateAdded: new Date(),
@@ -58,9 +58,11 @@ export default function ReserveAKataComponent() {
             let currentReservations = allUserReservations.filter(reservation => !reservation.isDeleted && !reservation.isCompleted)
             setNumberOfReservations(currentReservations);
             toggleShowA();
-            setFetchedKata(0);
+            await setFetchedKata("");
         }
     }
+
+    let wickedHere = document.getElementById("wickedHere");
 
   return (
     <>
@@ -68,7 +70,7 @@ export default function ReserveAKataComponent() {
             <Row className='justify-content-center'>
                 <Col className='grayCardBg mt-5 pt-4 pb-2 roundedCorners'>
                     <Row>
-                        <Col md={6} className=' '>
+                        <Col md={6} id='wickedHere' className=''>
                             {numberOfReservations.length < 3 ? 
                                 <>
                                 <Form.Label className="searchKataText headerText">Reserve Your Next Kata</Form.Label>
@@ -139,7 +141,7 @@ export default function ReserveAKataComponent() {
                         }
 
                         <ToastContainer position="top-end">
-                            <Toast onClose={() => setShowA(false)} show={showA} delay={3000} autohide>
+                            <Toast onClose={() => setShowA(false)} show={showA} delay={5000} autohide>
                             <Toast.Header>
                                 <img
                                 src="holder.js/20x20?text=%20"
