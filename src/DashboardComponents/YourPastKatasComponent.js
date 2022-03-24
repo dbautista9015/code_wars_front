@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button, Tab, Nav, Table } from 'react-bootst
 import UserContext from '../Context/UserContext';
 import { useUser } from '../Hooks/use-user';
 import { useNavigate } from 'react-router-dom';
-import {GetReservationsByUsername } from '../Services/DataService'
+import {GetReservationsByUsername, ChangeReservationStatus } from '../Services/DataService'
 
 export default function YourPastKatasComponent() {
 
@@ -26,6 +26,20 @@ useEffect(async () => {
     
 }, []);
 
+const handleReserveKata= async(kata)=> {
+    console.log(kata)
+    let result =  await ChangeReservationStatus(kata.id)
+    console.log(result)
+    if (result.length !=0)
+    {
+        let reservations = await GetReservationsByUsername(kata.codewarsName)
+        console.log(reservations)
+        if(reservations.length !=0)
+        {
+            setReservedKatas(reservations)
+        }
+    }
+}
 
   return (
     <>
@@ -47,6 +61,7 @@ useEffect(async () => {
                                     <th>Kata name</th>
                                     <th>Status</th>
                                     <th>Date reserved</th>
+                                    <th>Command</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,6 +75,12 @@ useEffect(async () => {
                                     <td>{kata.kataName}</td>
                                     <td><p className="redText">{kata.isCompleted?"Completed":"Not Completed"}</p></td>
                                     <td>{kata.dateAdded}</td>
+                                    {
+                                        !kata.isCompleted?
+                                        <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="success" onClick={()=> {handleReserveKata(kata)}}>Reserve</Button></td>
+                                        :
+                                        null
+                                    }
                                     </tr>
                                     :null
 
