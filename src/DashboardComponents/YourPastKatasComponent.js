@@ -7,7 +7,8 @@ import {GetReservationsByUsername, ChangeReservationStatus } from '../Services/D
 
 export default function YourPastKatasComponent() {
 
-    let { codewarsName, token, reservedKatas, setReservedKatas } = useContext(UserContext);
+    let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
+
     let navigate = useNavigate();
 
 useEffect(async () => {
@@ -37,6 +38,8 @@ const handleReserveKata= async(kata)=> {
         if(reservations.length !=0)
         {
             setReservedKatas(reservations)
+            let currentReservations = reservations.filter(reservation => !reservation.isDeleted && !reservation.isCompleted)
+            setNumberOfReservations(currentReservations);
         }
     }
 }
@@ -72,12 +75,19 @@ const handleReserveKata= async(kata)=> {
                                             kata.isDeleted?
                                              <tr key={idx}>
                                     <td>{kata.kataLevel}</td>
-                                    <td>{kata.kataName}</td>
+                                    <td><a className='kata-link pointer' href={kata.kataLink} target="_blank">{kata.kataName}</a></td>
                                     <td><p className="redText">{kata.isCompleted?"Completed":"Not Completed"}</p></td>
                                     <td>{kata.dateAdded}</td>
                                     {
                                         !kata.isCompleted?
-                                        <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="success" onClick={()=> {handleReserveKata(kata)}}>Reserve</Button></td>
+                                       
+                                        <td className="d-flex justify-content-center">
+                                            {
+                                                numberOfReservations.length>=3? <Button className='allText unreserveBtn mt-1 mb-1' variant="secondary" disabled>Reserve</Button> :<Button className='allText unreserveBtn mt-1 mb-1' variant="success" onClick={()=> {handleReserveKata(kata)}}>Reserve</Button>
+                                            }
+                                          
+                                            
+                                            </td>
                                         :
                                         null
                                     }
