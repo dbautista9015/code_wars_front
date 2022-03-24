@@ -10,11 +10,15 @@ const NavbarComponent = () => {
     const [token, setToken] = useState("");
 
     useEffect(() => {
-        
+
         setToken(localStorage.getItem('Token'));
-        console.log(localStorage.getItem('Token'));
+        //console.log(localStorage.getItem('Token'));
         
-    }, []);
+    }, [token]);
+
+    const handleSignout = () => {
+        localStorage.removeItem('Token');
+    }
 
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -28,7 +32,11 @@ const NavbarComponent = () => {
                 </Nav>
                 <Nav>
                     {isAdmin? <Nav.Link className='headerText' as={Link} to="/admin">Admin</Nav.Link> : null}
-                    <Nav.Link className='headerText' eventKey={2} as={Link} to="/login">Login</Nav.Link>
+                    {token == null ?
+                        <Nav.Link className='headerText' eventKey={2} as={Link} to="/login">Login</Nav.Link> 
+                        :
+                        <Nav.Link className='headerText' eventKey={2} as={Link} to="/login" onClick={handleSignout}>Sign out</Nav.Link> 
+                    }
                     {/* <Nav.Link eventKey={2} as={Link} to="/signout">Login</Nav.Link> */}
                 </Nav>
                 </Navbar.Collapse>

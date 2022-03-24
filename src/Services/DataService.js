@@ -100,6 +100,11 @@ async function GetUsersByCohort(cohortName){
 //     return data;
 // }
 
+async function GetAllUsers(){
+    let res = await fetch('https://mycodewars.azurewebsites.net/User/GetAllUsers');
+    let data = await res.json();
+    return data;
+}
 
 //cohorts
 async function AddCohort(newCohort){
@@ -364,4 +369,5 @@ async function GetCodeChallenge(id) {
 
 
 
-export { UserLogin, GetUserByUsername, AddCohort, GetAllCohorts, GetCohortById, GetArchivedCohorts, ArchiveByCohortName, DeleteByCohortName, UpdateCohortLvlDifficulty, EditCohortName, AddCompletedKata, GetAllCompletedKatas, GetCompletedKatasByCohortId, GetCompletedKatasByCodewarsName, GetReservedKatasByKataLanguage, GetReservedKatasByCohortId, GetAllCompletedKatasByCohortId, GetAllCompletedKataReservations, GetReservationsByUsername, GetReservationById, GetAllReservations, ChangeReservationCompletedStatus,ChangeReservationStatus, CreateReservation, GetUsersByCohort, ChangeAdminStatus, EditCohortForUser, DeleteUser, AddUser, GetCodeChallenge, DoesUserExist };
+
+export { UserLogin, GetUserByUsername, AddCohort, GetAllCohorts, GetCohortById, GetArchivedCohorts, ArchiveByCohortName, DeleteByCohortName, UpdateCohortLvlDifficulty, EditCohortName, AddCompletedKata, GetAllCompletedKatas, GetCompletedKatasByCohortId, GetCompletedKatasByCodewarsName, GetReservedKatasByKataLanguage, GetReservedKatasByCohortId, GetAllCompletedKatasByCohortId, GetAllCompletedKataReservations, GetReservationsByUsername, GetReservationById, GetAllReservations, ChangeReservationCompletedStatus,ChangeReservationStatus, CreateReservation, GetUsersByCohort, ChangeAdminStatus, EditCohortForUser, DeleteUser, AddUser, GetCodeChallenge, GetAllUsers, DoesUserExist };

@@ -160,3 +160,19 @@
 .reserveBtn {
   margin-left: 60%;
 }
+
+.kataName {
+  font-weight: bold;
+}
+.pointer{
+  cursor: pointer;
+}
+.kata-link{
+  color: white;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.kata-link:hover{
+  color: rgb(235, 183, 23);
+}

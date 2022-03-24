@@ -8,6 +8,7 @@ export default function UseUser() {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
     const [token, setToken] = useState("");
+    const [numberOfReservations, setNumberOfReservations] = useState([]);
     // setToken(localStorage.getItem('Token'));
 
     useEffect(() => {
@@ -17,5 +18,5 @@ export default function UseUser() {
         }
     }, []);
 
-    return { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas };
+    return { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations };
 }
