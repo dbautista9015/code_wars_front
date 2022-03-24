@@ -100,13 +100,11 @@ async function GetUsersByCohort(cohortName){
 //     return data;
 // }
 
-
 async function GetAllUsers(){
-    let res = await fetch("https://mycodewars.azurewebsites.net/User/getallusers");
+    let res = await fetch('https://mycodewars.azurewebsites.net/User/GetAllUsers');
     let data = await res.json();
     return data;
 }
-
 
 //cohorts
 async function AddCohort(newCohort){

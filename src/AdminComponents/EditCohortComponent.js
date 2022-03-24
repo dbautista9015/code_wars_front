@@ -7,10 +7,8 @@ import {
   Modal,
   Form,
   Container,
-  InputGroup,
-  FormControl,
 } from "react-bootstrap";
-import { EditCohortName, UpdateCohortLvlDifficulty } from "../Services/DataService";
+import { EditCohortName, UpdateCohortLvlDifficulty, GetAllUsers,GetUsersByCohort, EditCohortForUser, GetAllCohorts  } from "../Services/DataService";
 
 export default function EditCohortComponent() {
   //for the edit cohort modal
@@ -22,31 +20,66 @@ export default function EditCohortComponent() {
   const [oldCohortName, setOldCohortName] = useState("");
   const [updatedCohortName, setUpdatedCohortName] = useState("");
   const [cohortLvlDifficulty, setCohortLvlDifficulty] = useState("");
+  const [membersInCohort, setMembersInCohort] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
+  const [allCohorts, setAllCohorts] = useState([]);
 
   //function for the buttons that displays current cohorts. this button will set old cohort name
-  const handleSetAndShow = (e) => {
+  const handleSetAndShow = async (e) => {
     let temp = e.target.textContent.toString();
-    console.log(temp)
     let temp1 = temp.replace('%20', " ");
     setOldCohortName(temp1);
-    console.log(oldCohortName)
+    let fetchedUsersByCohort = await GetUsersByCohort(temp1);
+    setMembersInCohort(fetchedUsersByCohort);
     handleShow();
   }
 
-
   //function for savechanges button in modal
   const handleClick = async () => {
-    console.log(oldCohortName);
-    console.log(updatedCohortName)
     let result1 = await EditCohortName(oldCohortName, updatedCohortName);
     let result2;
     if (result1)
     {
       result2 = await UpdateCohortLvlDifficulty(updatedCohortName, cohortLvlDifficulty);
     }
-    console.log(result2);
+    let remainingMembers = allUsers.filter((member) => member.cohortName == oldCohortName);
+    for (const remainingMember of remainingMembers){
+      await EditCohortForUser(remainingMember.codewarsName, updatedCohortName)
+    }
+    setAllUsers([...allUsers]);
+    setAllCohorts([...allCohorts])
+    handleClose();
   }
 
+  //function to add member to cohort when list group is pressed
+  const handleAddMember = async (e) => {
+    console.log(e.target.textContent);
+    let editedUser = e.target.textContent;
+    e.target.classList.toggle("active");
+    let result = await EditCohortForUser(editedUser, oldCohortName);
+    if (result)
+    {
+      setAllUsers([... allUsers]);
+    }
+  }
+
+  const handleRemoveMember = async (e) => {
+    e.target.classList.toggle("active");
+    let editedUser = e.target.textContent;
+    let result = await EditCohortForUser(editedUser, "Select Cohort");
+    if (result)
+    {
+      setAllUsers([... allUsers]);
+    }
+  }
+
+  //useEffect to load current members in cohort
+  useEffect (async() => {
+    let allUsers = await GetAllUsers();
+    setAllUsers(allUsers);
+    let allCohorts = await GetAllCohorts();
+    setAllCohorts(allCohorts);
+  }, [allUsers, allCohorts])
 
   return (
     <>
@@ -65,26 +98,19 @@ export default function EditCohortComponent() {
                 defaultActiveKey="#link1"
                 className="align-items-center"
               >
-                <ListGroup.Item
-                  action
-                  className="listGroupBG"
-                  onClick={handleSetAndShow}
-                >
-                  Season 1
-                </ListGroup.Item>
-                <ListGroup.Item
-                  action
-                  className="listGroupBG"
-                  onClick={handleSetAndShow}
-                >
-                  Season 2
-                </ListGroup.Item>
-                <ListGroup.Item action className="listGroupBG">
-                  Season 3
-                </ListGroup.Item>
-                <ListGroup.Item action className="listGroupBG">
-                  Season 4
-                </ListGroup.Item>
+                {
+                  allCohorts.map((cohort) => {
+                    return (
+                      <ListGroup.Item
+                      action
+                      className="listGroupBG"
+                      onClick={handleSetAndShow}
+                    >
+                      {cohort.cohortName}
+                    </ListGroup.Item>
+                    )
+                  })
+                }
                 {/* <ListGroup.Item action onClick={alertClicked}>
           This one is a button
         </ListGroup.Item> */}
@@ -96,7 +122,7 @@ export default function EditCohortComponent() {
         <>
           <Modal show={show} onHide={handleClose} className="editCohortColor">
             <Modal.Header closeButton>
-              <Modal.Title>Edit Cohort & Kata Level</Modal.Title>
+              <Modal.Title>Edit {oldCohortName} & Kata Level</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form>
@@ -138,31 +164,39 @@ export default function EditCohortComponent() {
                   </Form.Select>
                 </Form.Group>
                 <Row>
-                  <Col sm={6}>
-                    <h4 className="mt-4 headerText" style={{ color: "white" }}>
-                      Remove Current Members
-                    </h4>
-                  </Col>
-                </Row>
-
-                <Row>
+                  {
+                    allUsers.filter((user) => user.cohortName == oldCohortName).length > 0 ?  (
+                      <>
+                        <Row>
+                          <Col sm={6}>
+                            <h4 className="mt-4 headerText" style={{ color: "white" }}>
+                            Remove Current Members
+                            </h4>
+                          </Col>
+                        </Row>
+                        <Row>
                   <Col>
                     <ListGroup as="ul">
-                      <ListGroup.Item as="li" className="listGroupBG">
-                        Danny
-                      </ListGroup.Item>
-                      <ListGroup.Item as="li" className="listGroupBG">
-                        Trent
-                      </ListGroup.Item>
-                      <ListGroup.Item as="li" className="listGroupBG">
-                        Dylan
-                      </ListGroup.Item>
-                      <ListGroup.Item as="li" className="listGroupBG">
-                        Walaa
-                      </ListGroup.Item>
+                    {
+                        allUsers.filter((member) => member.cohortName == oldCohortName).map((user, idx) => {
+                          return (
+                            <ListGroup.Item 
+                             action onClick={(e) => handleRemoveMember(e)}
+                              key={user.id} 
+                              as="li" 
+                              className="listGroupBG pointer"
+                              >{user.codewarsName}</ListGroup.Item>
+                          )
+                        })
+                      }
                     </ListGroup>
                   </Col>
                 </Row>
+                      </>
+                    ) : null
+                    }
+                </Row>
+
                 <Row>
                   <Col sm={6}>
                     <h4 className="mt-4 headerText" style={{ color: "white" }}>
@@ -170,22 +204,21 @@ export default function EditCohortComponent() {
                     </h4>
                   </Col>
                 </Row>
-
                 <Row>
                   <Col>
                     <ListGroup as="ul">
-                      <ListGroup.Item as="li" className="listGroupBG">
-                        Danny
-                      </ListGroup.Item>
-                      <ListGroup.Item as="li" className="listGroupBG">
-                        Trent
-                      </ListGroup.Item>
-                      <ListGroup.Item as="li" className="listGroupBG">
-                        Dylan
-                      </ListGroup.Item>
-                      <ListGroup.Item as="li" className="listGroupBG">
-                        Walaa
-                      </ListGroup.Item>
+                      {
+                        allUsers.filter((member) => member.cohortName != oldCohortName).map((user, idx) => {
+                          return (
+                            <ListGroup.Item 
+                             action onClick={(e) => handleAddMember(e)}
+                              key={user.id} 
+                              as="li" 
+                              className="listGroupBG pointer"
+                              >{user.codewarsName} - {user.cohortName}</ListGroup.Item>
+                          )
+                        })
+                      }
                     </ListGroup>
                   </Col>
                 </Row>
