@@ -31,7 +31,7 @@
 }
 
 .loginFormText {
-  color: #71717a;
+  color: #71717a !important;
 }
 
 .center {
@@ -72,7 +72,7 @@
 }
 
 .scrollFeature2 {
-  max-height: 130px;
+  max-height: 300px;
   overflow-y: scroll;
 }
 
@@ -155,5 +155,8 @@
 .allUsersInCohort{
   background-color:#1e1f20 !important;
   color: #A7A7A8 !important;
+}
 
+.reserveBtn {
+  margin-left: 60%;
 }

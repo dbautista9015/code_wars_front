@@ -20,7 +20,7 @@ function App() {
         <NavbarComponent />
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/" element={<DashboardPage />} />
             <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </BrowserRouter>

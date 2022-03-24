@@ -1,11 +1,31 @@
-import React from 'react'
+import React, {useEffect, useContext, useState} from 'react'
 import { Container, Row, Col, Form, Button, Tab, Nav, Table } from 'react-bootstrap';
+import UserContext from '../Context/UserContext';
+import { useUser } from '../Hooks/use-user';
+import { useNavigate } from 'react-router-dom';
+import {GetReservationsByUsername } from '../Services/DataService'
 
 export default function YourPastKatasComponent() {
 
-    const handleClick = () => {
-        // Open current reservation clicked
+    let { codewarsName, token, reservedKatas, setReservedKatas } = useContext(UserContext);
+    let navigate = useNavigate();
+
+useEffect(async () => {
+    if (token == null) {
+       navigate("/login");
     }
+    else{
+        let reservations = await GetReservationsByUsername(codewarsName)
+        console.log(reservations)
+        if(reservations.length !=0)
+        {
+            setReservedKatas(reservations)
+          
+        }
+    }
+    
+}, []);
+
 
   return (
     <>
@@ -30,24 +50,25 @@ export default function YourPastKatasComponent() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                    <td>3 Kyu</td>
-                                    <td>Calculate Angel's Salary</td>
-                                    <td><p className="redText">Not completed</p></td>
-                                    <td>3-22-22</td>
+                                    {
+                                        reservedKatas.length!=0?
+                                        reservedKatas.map((kata, idx)=>{
+                                        return(
+                                            kata.isDeleted?
+                                             <tr key={idx}>
+                                    <td>{kata.kataLevel}</td>
+                                    <td>{kata.kataName}</td>
+                                    <td><p className="redText">{kata.isCompleted?"Completed":"Not Completed"}</p></td>
+                                    <td>{kata.dateAdded}</td>
                                     </tr>
-                                    <tr>
-                                    <td>5 Kyu</td>
-                                    <td>Calculate Angel's Salary</td>
-                                    <td><p className="greenText">Completed</p></td>
-                                    <td>3-22-22</td>
-                                    </tr>
-                                    <tr>
-                                    <td>6 Kyu</td>
-                                    <td>Calculate Angel's Salary</td>
-                                    <td><p className="greenText">Completed</p></td>
-                                    <td>3-22-22</td>
-                                    </tr>
+                                    :null
+
+                                        )})
+                                        :
+                                        "You do not have any past reservations"
+                                    }
+                                   
+                                
                                 </tbody>
                             </Table>
                         </Col>
