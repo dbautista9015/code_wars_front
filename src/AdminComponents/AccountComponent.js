@@ -6,8 +6,10 @@ import {
   Col,
   Container,
   FloatingLabel,
+  ToastContainer,
+  Toast
 } from "react-bootstrap";
-import { AddUser, GetAllCohorts } from "../Services/DataService";
+import { AddUser, GetAllCohorts, DoesUserExist } from "../Services/DataService";
 export default function AccountComponent() {
   const [CodewarsName, setCodewarsName] = useState("");
   const [CohortName, setCohortName] = useState("");
@@ -20,6 +22,12 @@ export default function AccountComponent() {
     setAllCohort(allCohort);
   });
   const handleSubmit = async () => {
+    let result = await DoesUserExist(CodewarsName)
+   console.log(result)
+   if(result.success == false)
+   {
+     toggleShowA()
+   }else{
     let userData = {
       Id: 0,
       CodewarsName,
@@ -29,6 +37,8 @@ export default function AccountComponent() {
     };
     console.log(userData);
     AddUser(userData);
+   }
+    
   };
   const handleCohortSelect = (e) =>{
     setCohortName(e.target.value);
@@ -39,8 +49,19 @@ export default function AccountComponent() {
     setIsAdmin(!isAdmin);
     // console.log(isAdmin);
   };
+  
+  //show toast if the username does not exist
+  const [showA, setShowA] = useState(false);
+  const toggleShowA = () => setShowA(!showA);
+
+  //show button if the username does exist
+  // const [showButton, setShowButton] = useState(false);
+  // const toggleShowButton = () => setShowButton(!showButton);
+
+
   return (
     <>
+      
       <Container className="grayCardBg mt-5 pt-4 pb-4 roundedCorners">
         <Row>
           <Col sm={3}>
@@ -64,11 +85,7 @@ export default function AccountComponent() {
                 placeholder="Codewars username"
                 onChange={({ target }) => setCodewarsName(target.value)}
               />
-            </FloatingLabel>
-
-           
-
-              
+            </FloatingLabel>     
             <Form>
             <FloatingLabel
               controlId="floatingPassword"
@@ -108,10 +125,13 @@ export default function AccountComponent() {
                   onClick={handleAdmin}
                 ></Form.Check>
               </Form.Group>
-
+              
+              {
+                showA == false
+              }
               <Button
                 variant="success"
-                type="submit"
+                type="button"
                 className="allText"
                 onClick={handleSubmit}
               >
@@ -121,6 +141,20 @@ export default function AccountComponent() {
           </Col>
         </Row>
       </Container>
+         <ToastContainer className="p-3" position= "top-end">
+          <Toast show={showA} onClose={toggleShowA}>
+           <Toast.Header>
+             <img
+               src="holder.js/20x20?text=%20"
+               className="rounded me-2"
+               alt=""
+             />
+             <strong className="me-auto">Username Error</strong>
+           </Toast.Header>
+           <Toast.Body>This username does not exist in Codewars</Toast.Body>
+         </Toast>
+       </ToastContainer>
+     
     </>
   );
 }
