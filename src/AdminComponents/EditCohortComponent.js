@@ -1,11 +1,52 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ListGroup, Row, Col, Button, Modal, Form, Container } from "react-bootstrap";
+import {
+  ListGroup,
+  Row,
+  Col,
+  Button,
+  Modal,
+  Form,
+  Container,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
+import { EditCohortName, UpdateCohortLvlDifficulty } from "../Services/DataService";
 
 export default function EditCohortComponent() {
   //for the edit cohort modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  //useStates to edit cohort
+  const [oldCohortName, setOldCohortName] = useState("");
+  const [updatedCohortName, setUpdatedCohortName] = useState("");
+  const [cohortLvlDifficulty, setCohortLvlDifficulty] = useState("");
+
+  //function for the buttons that displays current cohorts. this button will set old cohort name
+  const handleSetAndShow = (e) => {
+    let temp = e.target.textContent.toString();
+    console.log(temp)
+    let temp1 = temp.replace('%20', " ");
+    setOldCohortName(temp1);
+    console.log(oldCohortName)
+    handleShow();
+  }
+
+
+  //function for savechanges button in modal
+  const handleClick = async () => {
+    console.log(oldCohortName);
+    console.log(updatedCohortName)
+    let result1 = await EditCohortName(oldCohortName, updatedCohortName);
+    let result2;
+    if (result1)
+    {
+      result2 = await UpdateCohortLvlDifficulty(updatedCohortName, cohortLvlDifficulty);
+    }
+    console.log(result2);
+  }
+
 
   return (
     <>
@@ -27,22 +68,22 @@ export default function EditCohortComponent() {
                 <ListGroup.Item
                   action
                   className="listGroupBG"
-                  onClick={handleShow}
+                  onClick={handleSetAndShow}
                 >
-                  Season 1 Cohort
+                  Season 1
                 </ListGroup.Item>
                 <ListGroup.Item
                   action
                   className="listGroupBG"
-                  onClick={handleShow}
+                  onClick={handleSetAndShow}
                 >
-                  Season 2 Cohort
+                  Season 2
                 </ListGroup.Item>
                 <ListGroup.Item action className="listGroupBG">
-                  Season 3 Cohort
+                  Season 3
                 </ListGroup.Item>
                 <ListGroup.Item action className="listGroupBG">
-                  Season 4 Cohort
+                  Season 4
                 </ListGroup.Item>
                 {/* <ListGroup.Item action onClick={alertClicked}>
           This one is a button
@@ -64,11 +105,15 @@ export default function EditCohortComponent() {
                   controlId="CodewarsUsername"
                 >
                   <Form.Label>Edit Cohort Name</Form.Label>
-                  <Form.Control
+
+
+                   <Form.Control
                     className="loginForm loginFormText"
                     type="text"
-                    placeholder="Enter Cohort Name"
-                  />
+                    placeholder="Example: Season 1, Season 2, etc"
+                    value={updatedCohortName}
+                    onChange={({ target: { value } }) => setUpdatedCohortName(value)}
+                  /> 
                 </Form.Group>
 
                 <Form.Group>
@@ -76,6 +121,10 @@ export default function EditCohortComponent() {
                   <Form.Select
                     aria-label="Default select example"
                     className="listGroupBG"
+                    value={cohortLvlDifficulty}
+                    onChange={({ target: { value } }) =>
+                      setCohortLvlDifficulty(value)
+                    }
                   >
                     <option>Select Cohort's Kata Level</option>
                     <option value="8">8 Kyu Kata</option>
@@ -91,7 +140,7 @@ export default function EditCohortComponent() {
                 <Row>
                   <Col sm={6}>
                     <h4 className="mt-4 headerText" style={{ color: "white" }}>
-                      Edit Users
+                      Remove Current Members
                     </h4>
                   </Col>
                 </Row>
@@ -117,7 +166,7 @@ export default function EditCohortComponent() {
                 <Row>
                   <Col sm={6}>
                     <h4 className="mt-4 headerText" style={{ color: "white" }}>
-                      Add Users
+                      Add Members
                     </h4>
                   </Col>
                 </Row>
@@ -146,7 +195,7 @@ export default function EditCohortComponent() {
               <Button variant="secondary" onClick={handleClose}>
                 Close
               </Button>
-              <Button variant="success" onClick={handleClose}>
+              <Button variant="success" onClick={handleClick}>
                 Save Changes
               </Button>
             </Modal.Footer>
