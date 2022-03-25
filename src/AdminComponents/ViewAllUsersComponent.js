@@ -159,7 +159,7 @@ export default function ViewAllUsersComponent() {
                                     })
                                     )
                                     :
-                                   <tr><td colSpan={6}>This user has no reservations</td></tr>
+                                   <tr><td colSpan={7}>This user has no reservations</td></tr>
                                   
                                   }
                                    
