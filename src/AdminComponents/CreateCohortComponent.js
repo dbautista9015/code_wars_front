@@ -79,7 +79,7 @@ export default function CreateCohortComponent() {
               <option value="6">6 Kyu Kata</option>
               <option value="5">5 Kyu Kata</option>
               <option value="4">4 Kyu Kata</option>
-              <option value="4">3 Kyu Kata</option>
+              <option value="3">3 Kyu Kata</option>
               <option value="2">2 Kyu Kata</option>
               <option value="1">1 Kyu Kata</option>
             </Form.Select>
@@ -105,7 +105,7 @@ export default function CreateCohortComponent() {
               {/* map through users with no cohort */}
               {allUsers.map((user, idx) => {
                 return (
-                  <ListGroup.Item key={user}  as="li" className="listGroupBG" onClick={(e) =>
+                  <ListGroup.Item key={idx}  as="li" className="listGroupBG" onClick={(e) =>
                     handleClick(e, user.codewarsName, user.cohortName)
                   }>{user.codewarsName}</ListGroup.Item>
                 )

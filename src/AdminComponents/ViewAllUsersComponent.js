@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { faColonSign } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Accordion,
   ListGroup,
@@ -9,8 +10,23 @@ import {
   Table,
   Container,
 } from "react-bootstrap";
+import UserContext from '../Context/UserContext';
+import { useUser } from '../Hooks/use-user';
+import {GetAllCohorts, GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChallenge} from "../Services/DataService"
 
 export default function ViewAllUsersComponent() {
+  let {reservedKatas, setReservedKatas } = useContext(UserContext);
+
+  useEffect(async ()=>{
+    let token = localStorage.getItem('Token')
+    if(token!=null)
+    {
+      let cohorts = await GetAllCohorts()
+      console.log(cohorts)
+    }
+
+  },[]);
+
   //for the view user modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);

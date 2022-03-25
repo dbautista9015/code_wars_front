@@ -9,7 +9,7 @@ import { useUser } from '../Hooks/use-user';
 import { useNavigate } from 'react-router-dom';
 
 const AdminPage = () => {
-  let { storedCodewarsName, codewarsName} = useContext(UserContext);
+  let { storedCodewarsName, codewarsName, setCodewarsName} = useContext(UserContext);
   let navigate = useNavigate();
 
   useEffect(async () => {
@@ -21,7 +21,7 @@ const AdminPage = () => {
        storedCodewarsName = localStorage.getItem("codewarsName")
         if(storedCodewarsName!=null)
         {
-          codewarsName(storedCodewarsName)
+          setCodewarsName(storedCodewarsName)
         }
        
     }
