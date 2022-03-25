@@ -4,8 +4,29 @@ import AccountComponent from '../AdminComponents/AccountComponent';
 import CreateCohortComponent from '../AdminComponents/CreateCohortComponent';
 import EditCohortComponent from '../AdminComponents/EditCohortComponent';
 import ViewAllUsersComponent from '../AdminComponents/ViewAllUsersComponent';
+import UserContext from '../Context/UserContext';
+import { useUser } from '../Hooks/use-user';
+import { useNavigate } from 'react-router-dom';
 
 const AdminPage = () => {
+  let { storedCodewarsName, codewarsName} = useContext(UserContext);
+  let navigate = useNavigate();
+
+  useEffect(async () => {
+    let token = localStorage.getItem('Token')
+    if (token == null) {
+       navigate("/login");
+    }
+    else{
+       storedCodewarsName = localStorage.getItem("codewarsName")
+        if(storedCodewarsName!=null)
+        {
+          codewarsName(storedCodewarsName)
+        }
+       
+    }
+    
+}, []);
   return (
     <>
     <Container fluid>
