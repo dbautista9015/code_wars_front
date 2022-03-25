@@ -1,64 +1,76 @@
-import React, { useEffect, useContext, useState } from 'react';
-import { Container, Row, Col, Form, Button, Tab, Nav } from 'react-bootstrap';
-import ReserveAKataComponent from '../DashboardComponents/ReserveAKataComponent';
-import YourCurrentKatasComponent from '../DashboardComponents/YourCurrentKatasComponent';
-import YourPastKatasComponent from '../DashboardComponents/YourPastKatasComponent';
-import { useNavigate } from 'react-router-dom';
-import { useUser } from '../Hooks/use-user';
-import UserContext from '../Context/UserContext';
+import React, { useEffect, useContext, useState } from "react";
+import { Container, Row, Col, Form, Button, Tab, Nav } from "react-bootstrap";
+import ReserveAKataComponent from "../DashboardComponents/ReserveAKataComponent";
+import YourCurrentKatasComponent from "../DashboardComponents/YourCurrentKatasComponent";
+import YourPastKatasComponent from "../DashboardComponents/YourPastKatasComponent";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../Hooks/use-user";
+import UserContext from "../Context/UserContext";
 
 export default function DashboardPage() {
+  let { storedCodewarsName, setCodewarsName } = useContext(UserContext);
+  let navigate = useNavigate();
 
-    let navigate = useNavigate();
-    let { token } = useContext(UserContext);
-
-    useEffect(() => {
-
-        if (token.token == null) {
-            navigate("/login");
-        }
-        
-    }, []);
+  useEffect(async () => {
+    let token = localStorage.getItem("Token");
+    if (token == null) {
+      navigate("/login");
+    } else {
+      storedCodewarsName = localStorage.getItem("codewarsName");
+      if (storedCodewarsName != null) {
+        setCodewarsName(storedCodewarsName);
+      }
+    }
+  }, []);
 
   return (
     <>
-        <Container fluid>
-            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-                <Row>
-                    <Col sm={3} className="tabBg">
-                        <Nav variant="pills" className="flex-column allText marginTop">
-                        <Nav.Item>
-                            <Nav.Link className='headerText tabBtn mb-4' eventKey="first"  >Reserve a Kata</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link className='headerText tabBtn mb-4' eventKey="second">Your current reservations</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link className='headerText tabBtn' eventKey="third">Your past Katas</Nav.Link>
-                        </Nav.Item>
-                        </Nav>
-                    </Col>
-                    <Col >
-                        <Tab.Content>
-                        <Tab.Pane eventKey="first">
-                            <ReserveAKataComponent />
-                        </Tab.Pane>
-                        <Tab.Pane eventKey="second">
-                            <YourCurrentKatasComponent />
-                        </Tab.Pane>
-                        <Tab.Pane eventKey="third">
-                            <YourPastKatasComponent />
-                        </Tab.Pane>
-                        <Tab.Pane eventKey="fourth">
-                            {/* <ViewAllUsersComponent /> */}
-                        </Tab.Pane>
-                        </Tab.Content>
-                    </Col>
-                </Row>
-            </Tab.Container>
-        </Container>
+      <Container fluid>
+        <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+          <Row>
+            <Col sm={3} className="tabBg">
+              <Nav variant="pills" className="flex-column allText marginTop">
+                <Nav.Item>
+                  <Nav.Link className="headerText tabBtn mb-4" eventKey="first">
+                    Reserve a Kata
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link
+                    className="headerText tabBtn mb-4"
+                    eventKey="second"
+                  >
+                    Your current reservations
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link className="headerText tabBtn" eventKey="third">
+                    Your past Katas
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Col>
+            <Col>
+              <Tab.Content>
+                <Tab.Pane eventKey="first">
+                  <ReserveAKataComponent />
+                </Tab.Pane>
+                <Tab.Pane eventKey="second">
+                  <YourCurrentKatasComponent />
+                </Tab.Pane>
+                <Tab.Pane eventKey="third">
+                  <YourPastKatasComponent />
+                </Tab.Pane>
+                <Tab.Pane eventKey="fourth">
+                  {/* <ViewAllUsersComponent /> */}
+                </Tab.Pane>
+              </Tab.Content>
+            </Col>
+          </Row>
+        </Tab.Container>
+      </Container>
     </>
-  )
+  );
 }
 // {
 //     "id": "534e01fbbb17187c7e0000c6",
