@@ -83,7 +83,7 @@ export default function YourCurrentKatasComponent() {
                                         reservedKatas.length!=0?
                                         reservedKatas.map((kata, idx)=> {
                                             return(
-                                            !kata.isDeleted?
+                                            !kata.isDeleted && !kata.isCompleted?
                                                  <tr key={idx}>
                                               <td>{kata.kataLevel} kyu</td>
                                     <td onClick={()=> {handleKataInformation(kata)}}>{kata.kataName}</td>
