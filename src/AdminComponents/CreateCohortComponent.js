@@ -100,7 +100,7 @@ export default function CreateCohortComponent() {
             </Form.Select>
           </Col>
         </Row>
-        <Row className="justify-content-center">
+        {/* <Row className="justify-content-center">
           <Col sm={6}>
             <Button
               variant="success"
@@ -110,7 +110,7 @@ export default function CreateCohortComponent() {
               Submit
             </Button>
           </Col>
-        </Row>
+        </Row> */}
 
         <Row>
           <Col sm={3}>
@@ -140,6 +140,17 @@ export default function CreateCohortComponent() {
                 );
               })}
             </ListGroup>
+          </Col>
+        </Row>
+        <Row className="justify-content-center">
+          <Col sm={6}>
+            <Button
+              variant="success"
+              onClick={handleSubmit}
+              className="mt-3 allText"
+            >
+              Submit
+            </Button>
           </Col>
         </Row>
       </Container>
