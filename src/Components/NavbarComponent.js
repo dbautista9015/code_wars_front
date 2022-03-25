@@ -6,7 +6,7 @@ import UserContext from '../Context/UserContext';
 
 const NavbarComponent = () => {
 
-    let { isAdmin,token, setToken, storedCodewarsName, SetStoredCodwarsName } = useContext(UserContext);
+    let { isAdmin,token, setToken, storedCodewarsName, SetStoredCodwarsName, setIsAdmin } = useContext(UserContext);
  
 
     useEffect(() => {
@@ -21,6 +21,8 @@ const NavbarComponent = () => {
         localStorage.removeItem('Token');
         localStorage.removeItem('codewarsName')
         setToken('')
+        setIsAdmin(false)
+        
     }
 
     return (
