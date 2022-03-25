@@ -252,7 +252,7 @@ async function ChangeReservationCompletedStatus(id){
 }
 
 async function ChangeReservationStatus(id){
-    let res= await fetch(`https://mycodewars.azurewebsites.net/Reserve/ChangeReservationStatus/${id}`, {
+    let res= await fetch(`https://mycodewars.azurewebsites.net/Reserve/RemoveReservation/${id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -366,6 +366,8 @@ async function GetCodeChallenge(id) {
     
     return data;
 }
+
+async function RemoveReservation()
 
 
 
