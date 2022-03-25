@@ -18,6 +18,7 @@ const NavbarComponent = () => {
 
     const handleSignout = () => {
         localStorage.removeItem('Token');
+        localStorage.removeItem('codewarsName')
     }
 
     return (
