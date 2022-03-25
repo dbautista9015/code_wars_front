@@ -117,7 +117,7 @@ export default function AccountComponent() {
                 } )
               }
               </Form.Select>
-              <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Group className="mb-3 mt-2" controlId="formBasicCheckbox">
                 <Form.Check
                   type="checkbox"
                   label="Check If Admin Role"
