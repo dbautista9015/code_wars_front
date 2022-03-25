@@ -32,14 +32,14 @@ const NavbarComponent = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
-                    {token != null ? <Nav.Link className='headerText' as={Link} to="/">Dashboard</Nav.Link> : null}
+                    {token != null ? <Nav.Link className='headerText' as={Link} to="/dashboard">Dashboard</Nav.Link> : null}
                 </Nav>
                 <Nav>
                     {isAdmin? <Nav.Link className='headerText' as={Link} to="/admin">Admin</Nav.Link> : null}
                     {token == null ?
-                        <Nav.Link className='headerText' eventKey={2} as={Link} to="/login">Login</Nav.Link> 
+                        <Nav.Link className='headerText' eventKey={2} as={Link} to="/">Login</Nav.Link> 
                         :
-                        <Nav.Link className='headerText' eventKey={2} as={Link} to="/login" onClick={handleSignout}>Not <u>{storedCodewarsName}</u>? Sign out</Nav.Link> 
+                        <Nav.Link className='headerText' eventKey={2} as={Link} to="/" onClick={handleSignout}>Not <u>{storedCodewarsName}</u>? Sign out</Nav.Link> 
                     }
                     {/* <Nav.Link eventKey={2} as={Link} to="/signout">Login</Nav.Link> */}
                 </Nav>

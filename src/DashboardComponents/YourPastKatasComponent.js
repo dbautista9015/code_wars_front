@@ -11,7 +11,7 @@ export default function YourPastKatasComponent() {
 
 useEffect(async () => {
     if (token == null) {
-       navigate("/login");
+       navigate("/");
     }
     else{
         storedCodewarsName = localStorage.getItem("codewarsName")

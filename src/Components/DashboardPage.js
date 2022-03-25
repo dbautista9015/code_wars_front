@@ -18,7 +18,7 @@ export default function DashboardPage() {
   useEffect(async () => {
     let token = localStorage.getItem("Token");
     if (token == null) {
-      navigate("/login");
+      navigate("/");
     } else {
       storedCodewarsName = localStorage.getItem("codewarsName");
       if (storedCodewarsName != null) {
