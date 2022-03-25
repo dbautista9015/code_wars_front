@@ -7,7 +7,7 @@ import {GetReservationsByUsername, ChangeReservationStatus } from '../Services/D
 
 export default function YourPastKatasComponent() {
 
-    let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
+    let { codewarsName, storedCodewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
 
     let navigate = useNavigate();
 
@@ -16,13 +16,18 @@ useEffect(async () => {
        navigate("/login");
     }
     else{
-        let reservations = await GetReservationsByUsername(codewarsName)
+        storedCodewarsName = localStorage.getItem("codewarsName")
+        if(storedCodewarsName!=null)
+        {
+             let reservations = await GetReservationsByUsername(storedCodewarsName)
+       
         console.log(reservations)
         if(reservations.length !=0)
         {
             setReservedKatas(reservations)
           
         }
+    }
     }
     
 }, []);

@@ -12,7 +12,7 @@ const LoginPage = () => {
     const [showA, setShowA] = useState(false);
     const toggleShowA = () => setShowA(!showA);
 
-    let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken } = useContext(UserContext);
+    let { codewarsName, setCodewarsName, cohortName, setCohortName,storedCodewarsName, SetStoredCodwarsName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken } = useContext(UserContext);
 
 
     const handleSubmit = async (e) => {
@@ -32,6 +32,7 @@ const LoginPage = () => {
             let userInfo = await GetUserByUsername(userData.codewarsName)
             setCohortName(userInfo.cohortName);
             console.log(userInfo);
+            storedCodewarsName=localStorage.setItem("codewarsName", userData.codewarsName)
             setIsAdmin(userInfo.isAdmin);
             setToken(localStorage.getItem('Token'));
             if (userInfo.isAdmin) {
