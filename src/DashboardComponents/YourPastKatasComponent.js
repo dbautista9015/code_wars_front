@@ -24,7 +24,6 @@ useEffect(async () => {
         }
     }
     }
-    
 }, []);
 
 const handleReserveKata= async(kata)=> {
@@ -58,8 +57,8 @@ const handleReserveKata= async(kata)=> {
                                     <th>Kata name</th>
                                     <th>Status</th>
                                     <th>Date reserved</th>
+                                    <th>Language</th>
                                     <th>Link</th>
-                                    <th>Command</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,14 +66,15 @@ const handleReserveKata= async(kata)=> {
                                         reservedKatas.length!=0?
                                         reservedKatas.map((kata, idx)=>{
                                         return(
-                                            kata.isDeleted || kata.isCompleted?
+                                            kata.isCompleted?
                                              <tr key={idx}>
                                     <td>{kata.kataLevel}</td>
                                     <td>{kata.kataName}</td>
-                                    <td><p className="redText">{kata.isCompleted?"Completed":"Not Completed"}</p></td>
+                                    <td><p className="greenText">{kata.isCompleted?"Completed":"Not Completed"}</p></td>
                                     <td>{kata.dateAdded}</td>
+                                    <td>{kata.kataLanguage}</td>
                                     <td><a className='kata-link pointer' href={kata.kataLink} target="_blank">Open</a></td>
-                                    {
+                                    {/* {
                                         !kata.isCompleted?
                                        
                                         <td className="d-flex justify-content-center">
@@ -84,7 +84,7 @@ const handleReserveKata= async(kata)=> {
                                             </td>
                                         :
                                         null
-                                    }
+                                    } */}
                                     </tr>
                                     :null
 
