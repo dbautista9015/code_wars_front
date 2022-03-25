@@ -8,29 +8,37 @@ import {
   Form,
   Container,
 } from "react-bootstrap";
-import { EditCohortName, UpdateCohortLvlDifficulty, GetAllUsers,GetUsersByCohort, EditCohortForUser, GetAllCohorts  } from "../Services/DataService";
+import { EditCohortName, UpdateCohortLvlDifficulty, GetAllUsers,GetUsersByCohort, EditCohortForUser, GetAllCohorts, GetCohortByCohortName  } from "../Services/DataService";
 
 export default function EditCohortComponent() {
   //for the edit cohort modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  
   //useStates to edit cohort
   const [oldCohortName, setOldCohortName] = useState("");
   const [updatedCohortName, setUpdatedCohortName] = useState("");
   const [cohortLvlDifficulty, setCohortLvlDifficulty] = useState("");
-  const [membersInCohort, setMembersInCohort] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [allCohorts, setAllCohorts] = useState([]);
+  const [currentCohort, setCurrentCohort] = useState({});
+  
+  let allFetchedUsers;
 
-  //function for the buttons that displays current cohorts. this button will set old cohort name
+
+  //function for the buttons that displays current cohorts. this button will also set old cohort name
   const handleSetAndShow = async (e) => {
     let temp = e.target.textContent.toString();
     let temp1 = temp.replace('%20', " ");
+    console.log(temp)
     setOldCohortName(temp1);
-    let fetchedUsersByCohort = await GetUsersByCohort(temp1);
-    setMembersInCohort(fetchedUsersByCohort);
+    let allUsers = await GetAllUsers();
+    setAllUsers([...allUsers]);
+    let clickedCohort = await GetCohortByCohortName(temp1);
+    setCurrentCohort(clickedCohort);
+    setUpdatedCohortName(clickedCohort.cohortName);
+    setCohortLvlDifficulty(clickedCohort.lvlDifficulty);
     handleShow();
   }
 
@@ -46,8 +54,10 @@ export default function EditCohortComponent() {
     for (const remainingMember of remainingMembers){
       await EditCohortForUser(remainingMember.codewarsName, updatedCohortName)
     }
-    setAllUsers([...allUsers]);
-    setAllCohorts([...allCohorts])
+    allFetchedUsers = await GetAllUsers();
+    let allCohorts1 = await GetAllCohorts();
+    setAllUsers([...allFetchedUsers]);
+    setAllCohorts([...allCohorts1]);
     handleClose();
   }
 
@@ -57,29 +67,30 @@ export default function EditCohortComponent() {
     let editedUser = e.target.textContent;
     e.target.classList.toggle("active");
     let result = await EditCohortForUser(editedUser, oldCohortName);
-    if (result)
-    {
-      setAllUsers([... allUsers]);
+    if (result){
+      allFetchedUsers = await GetAllUsers();
     }
+    setAllUsers([...allFetchedUsers]);
   }
 
+  //function to remove member when name is clicked
   const handleRemoveMember = async (e) => {
     e.target.classList.toggle("active");
     let editedUser = e.target.textContent;
     let result = await EditCohortForUser(editedUser, "Select Cohort");
-    if (result)
-    {
-      setAllUsers([... allUsers]);
+    if (result){
+      allFetchedUsers = await GetAllUsers();
     }
+    setAllUsers([...allFetchedUsers]);
   }
 
-  //useEffect to load current members in cohort
+//useEffect to load current members in cohort on initial load
   useEffect (async() => {
     let allUsers = await GetAllUsers();
     setAllUsers(allUsers);
     let allCohorts = await GetAllCohorts();
     setAllCohorts(allCohorts);
-  }, [allUsers, allCohorts])
+  }, [])
 
   return (
     <>
@@ -103,6 +114,7 @@ export default function EditCohortComponent() {
                     return (
                       <ListGroup.Item
                       action
+                      key={cohort.cohortName}
                       className="listGroupBG"
                       onClick={handleSetAndShow}
                     >
@@ -111,9 +123,6 @@ export default function EditCohortComponent() {
                     )
                   })
                 }
-                {/* <ListGroup.Item action onClick={alertClicked}>
-          This one is a button
-        </ListGroup.Item> */}
               </ListGroup>
             </Col>
           </Row>
@@ -131,19 +140,15 @@ export default function EditCohortComponent() {
                   controlId="CodewarsUsername"
                 >
                   <Form.Label>Edit Cohort Name</Form.Label>
-
-
                    <Form.Control
                     className="loginForm loginFormText"
                     type="text"
-                    placeholder="Example: Season 1, Season 2, etc"
                     value={updatedCohortName}
                     onChange={({ target: { value } }) => setUpdatedCohortName(value)}
                   /> 
                 </Form.Group>
 
                 <Form.Group>
-                  {/* <Form.Label> </Form.Label> */}
                   <Form.Select
                     aria-label="Default select example"
                     className="listGroupBG"
@@ -182,7 +187,7 @@ export default function EditCohortComponent() {
                           return (
                             <ListGroup.Item 
                              action onClick={(e) => handleRemoveMember(e)}
-                              key={user.id} 
+                              key={user.codewarsName+"b"} 
                               as="li" 
                               className="listGroupBG pointer"
                               >{user.codewarsName}</ListGroup.Item>
@@ -208,14 +213,14 @@ export default function EditCohortComponent() {
                   <Col>
                     <ListGroup as="ul">
                       {
-                        allUsers.filter((member) => member.cohortName != oldCohortName).map((user, idx) => {
+                        allUsers.filter((member) => member.cohortName == "Select Cohort").map((user, idx) => {
                           return (
                             <ListGroup.Item 
                              action onClick={(e) => handleAddMember(e)}
-                              key={user.id} 
+                              key={user.codewarsName+"a"} 
                               as="li" 
                               className="listGroupBG pointer"
-                              >{user.codewarsName} - {user.cohortName}</ListGroup.Item>
+                              >{user.codewarsName}</ListGroup.Item>
                           )
                         })
                       }
