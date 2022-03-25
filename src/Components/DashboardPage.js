@@ -14,7 +14,7 @@ export default function DashboardPage() {
 
     useEffect(() => {
 
-        if (token == null) {
+        if (token.token == null) {
             navigate("/login");
         }
         
