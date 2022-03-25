@@ -9,7 +9,7 @@ export default function ReserveAKataComponent() {
 
     let navigate = useNavigate();
     
-    let { codewarsName,storedCodewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
+    let { codewarsName,storedCodewarsName, cohortName,  token, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
 
     const [searchedKata, setSearchedKata] = useState("");
     const [fetchedKata, setFetchedKata] = useState([]);
@@ -40,11 +40,6 @@ export default function ReserveAKataComponent() {
     const handleSubmit = async () => {
 
         let result = await GetCodeChallenge(searchedKata);
-        // if (result == false) {
-        //     console.log(result);
-        //     let wickedHere = document.getElementById("wickedHere");
-        //     wickedHere.classList.add("shake");
-        // }
         setFetchedKata(result);
         setFetchedKataLanguages(result.languages);
         console.log(result);
@@ -65,9 +60,6 @@ export default function ReserveAKataComponent() {
             isCompleted: false,
             isDeleted: false
         };
-
-        console.log(newReservation);
-        // CreateReservation(newReservation);
 
         let result = await CreateReservation(newReservation);
         if (result) {
