@@ -176,6 +176,9 @@
 .kata-link:hover{
   color: rgb(235, 183, 23);
 }
+a{
+  cursor: pointer;
+}
 
 @media (min-width: 576px)
 {
