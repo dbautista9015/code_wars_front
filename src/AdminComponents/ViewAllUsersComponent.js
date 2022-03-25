@@ -19,6 +19,7 @@ export default function ViewAllUsersComponent() {
   const [cohorts, setCohorts] = useState([]);
   const [cohortUsers, setCohortUsers] = useState([]);
   const [cohortUserReservations, setCohortUserReservations] = useState([]);
+  const [cohortUser, setCohortUser] = useState([]);
 
   useEffect(async ()=>{
     let token = localStorage.getItem('Token')

@@ -67,7 +67,7 @@ const handleReserveKata= async(kata)=> {
                                         reservedKatas.length!=0?
                                         reservedKatas.map((kata, idx)=>{
                                         return(
-                                            kata.isDeleted?
+                                            kata.isDeleted || kata.isCompleted?
                                              <tr key={idx}>
                                     <td>{kata.kataLevel}</td>
                                     <td>{kata.kataName}</td>
