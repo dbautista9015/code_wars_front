@@ -6,8 +6,8 @@ import UserContext from '../Context/UserContext';
 
 const NavbarComponent = () => {
 
-    let { isAdmin } = useContext(UserContext);
-    const [token, setToken] = useState("");
+    let { isAdmin,token, setToken } = useContext(UserContext);
+ 
 
     useEffect(() => {
 
@@ -19,6 +19,7 @@ const NavbarComponent = () => {
     const handleSignout = () => {
         localStorage.removeItem('Token');
         localStorage.removeItem('codewarsName')
+        setToken('')
     }
 
     return (

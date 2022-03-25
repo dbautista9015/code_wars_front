@@ -90,6 +90,7 @@ export default function YourCurrentKatasComponent() {
                                     <th>Level</th>
                                     <th>Kata name</th>
                                     <th>Status</th>
+                                    <th>Link</th>
                                     <th>Unreserve</th>
                                     </tr>
                                 </thead>
@@ -102,8 +103,9 @@ export default function YourCurrentKatasComponent() {
                                             !kata.isDeleted?
                                                  <tr key={idx}>
                                               <td>{kata.kataLevel} kyu</td>
-                                    <td onClick={()=> {handleKataInformation(kata)}}><a className='kata-link pointer' href={kata.kataLink} target="_blank">{kata.kataName}</a></td>
+                                    <td onClick={()=> {handleKataInformation(kata)}}>{kata.kataName}</td>
                                     <td><p className="redText">{kata.isCompleted?"Completed": "Not Completed"}</p></td>
+                                    <td><a className='kata-link pointer' href={kata.kataLink} target="_blank">Open</a></td>
                                     <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" onClick={()=> {handleUnreserveKata(kata.id)}}>Unreserve</Button></td>       
                                             </tr>:null
                                             )

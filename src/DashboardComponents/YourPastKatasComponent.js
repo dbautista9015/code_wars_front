@@ -69,6 +69,7 @@ const handleReserveKata= async(kata)=> {
                                     <th>Kata name</th>
                                     <th>Status</th>
                                     <th>Date reserved</th>
+                                    <th>Link</th>
                                     <th>Command</th>
                                     </tr>
                                 </thead>
@@ -80,9 +81,10 @@ const handleReserveKata= async(kata)=> {
                                             kata.isDeleted?
                                              <tr key={idx}>
                                     <td>{kata.kataLevel}</td>
-                                    <td><a className='kata-link pointer' href={kata.kataLink} target="_blank">{kata.kataName}</a></td>
+                                    <td>{kata.kataName}</td>
                                     <td><p className="redText">{kata.isCompleted?"Completed":"Not Completed"}</p></td>
                                     <td>{kata.dateAdded}</td>
+                                    <td><a className='kata-link pointer' href={kata.kataLink} target="_blank">Open</a></td>
                                     {
                                         !kata.isCompleted?
                                        
