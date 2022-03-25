@@ -38,8 +38,8 @@ export default function ReserveAKataComponent() {
     }, []);
 
     const handleSubmit = async () => {
-
-        let result = await GetCodeChallenge(searchedKata);
+        let temp = searchedKata.split("/")[4];
+        let result = await GetCodeChallenge(temp);
         setFetchedKata(result);
         setFetchedKataLanguages(result.languages);
         console.log(result);
@@ -62,6 +62,7 @@ export default function ReserveAKataComponent() {
         };
 
         let result = await CreateReservation(newReservation);
+        console.log(result)
         if (result) {
             let allUserReservations = await GetReservationsByUsername(codewarsName);
             setReservedKatas(allUserReservations);
