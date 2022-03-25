@@ -4,6 +4,11 @@
   font-family: "Maven Pro", sans-serif;
 }
 
+.headerText1 {
+  font-family: "Maven Pro", sans-serif;
+  margin-bottom: 0px !important;
+}
+
 .allText {
   font-family: "PT Sans", sans-serif;
 }
@@ -97,7 +102,7 @@
 }
 
 .marginTop {
-  margin-top: 45%;
+  margin-top: 25%;
 }
 
 .tabBg {
@@ -106,6 +111,13 @@
 }
 
 .tabBtn {
+  background-color: #27272A !important;
+  border-radius: 0.1px;
+  border: 2px solid #3F3F45 !important;
+  color: #DFDFDF !important;
+  font-size: 18px;
+}
+.tabBtn1 {
   background-color: #27272A !important;
   border-radius: 0.1px;
   border: 2px solid #3F3F45 !important;
@@ -206,3 +218,7 @@ a{
     max-width: 900px !important;
 }
 }
+
+/* .cohortMargin {
+  margin-left: 10%;
+} */

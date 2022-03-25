@@ -1,10 +1,16 @@
 import React, { useState, useContext } from 'react';
-import { Container, Row, Col, Form, Button, Toast, ToastContainer } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Toast, ToastContainer, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { UserLogin, GetUserByUsername } from '../Services/DataService'
 import UserContext from '../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+
+    const renderTooltip = (props) => (
+        <Tooltip id="button-tooltip" {...props}>
+          To the moon!
+        </Tooltip>
+      )
 
     let navigate = useNavigate();
 
@@ -64,9 +70,16 @@ const LoginPage = () => {
                                     <Form.Control className='loginForm loginFormText' type="password" placeholder="Password" onChange={({ target: { value } }) => setPassword(value)}/>
                                 </Form.Group>
                             <Row className='justify-content-center mt-5 mb-3 ms-1 me-1'>
+
+                            <OverlayTrigger
+                            placement="right"
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={renderTooltip}
+                            >
                                 <Button className='allText signinBtnBg' variant="primary" type="submit">
                                     Sign in 🚀
                                 </Button>
+        </OverlayTrigger>
                             </Row>
                             </div>
                             <Row className='justify-content-center'>

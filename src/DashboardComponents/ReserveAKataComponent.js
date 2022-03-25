@@ -48,30 +48,37 @@ export default function ReserveAKataComponent() {
 
     const handleReserve = async (fetchedKata) => {
 
-        let newReservation = {
-            id: 0,  
-            kataId: fetchedKata.id,
-            codewarsName: codewarsName,
-            cohortName: cohortName,
-            kataName: fetchedKata.name,
-            kataLevel: Number(fetchedKata.rank.name.split(' ')[0]),
-            kataLink: fetchedKata.url,
-            kataLanguage: languageChosen,
-            dateAdded: (new Date()).toLocaleDateString('en-US'),
-            isCompleted: false,
-            isDeleted: false
-        };
-
-        let result = await CreateReservation(newReservation);
-        setIsReserved(result);
-        if (result) {
-            let allUserReservations = await GetReservationsByUsername(codewarsName);
-            setReservedKatas(allUserReservations);
-            let currentReservations = allUserReservations.filter(reservation => !reservation.isDeleted && !reservation.isCompleted)
-            setNumberOfReservations(currentReservations);
+        if(languageChosen == "")
+        {
+            setIsReserved(false);
             toggleShowA();
-            await setFetchedKata("");
+        }else{
+            let newReservation = {
+                id: 0,  
+                kataId: fetchedKata.id,
+                codewarsName: codewarsName,
+                cohortName: cohortName,
+                kataName: fetchedKata.name,
+                kataLevel: Number(fetchedKata.rank.name.split(' ')[0]),
+                kataLink: fetchedKata.url,
+                kataLanguage: languageChosen,
+                dateAdded: (new Date()).toLocaleDateString('en-US'),
+                isCompleted: false,
+                isDeleted: false
+            };
+    
+            let result = await CreateReservation(newReservation);
+            setIsReserved(result);
+            if (result) {
+                let allUserReservations = await GetReservationsByUsername(codewarsName);
+                setReservedKatas(allUserReservations);
+                let currentReservations = allUserReservations.filter(reservation => !reservation.isDeleted && !reservation.isCompleted)
+                setNumberOfReservations(currentReservations);
+                await setFetchedKata("");
+                setLanguageChosen("");
+            }
         }
+        toggleShowA();
     }
 
   return (
@@ -123,7 +130,7 @@ export default function ReserveAKataComponent() {
                                             {/* <p className='dashboardSlugTitle headerText'>Languages:</p>
                                             <p className='dashboardSlugText ms-2 allText'>{fetchedKataLanguages}</p> */}
                                             <Form.Select className='searchBarBg loginFormText' aria-label="Default select example"
-                                            onChange={({ target: { value } }) => setLanguageChosen(value)}>
+                                            onChange={({ target: { value } }) => setLanguageChosen(value)} required>
                                                 <option>Select language</option>
                                                 {
                                                     fetchedKataLanguages.map((language, idx) => 
@@ -162,13 +169,16 @@ export default function ReserveAKataComponent() {
                                 <strong className="me-auto">
                                 {
                                     isReserved ? "Sucessfully added ✅" : "Unable to reserve kata"
-                                    
-                                } </strong>
+                                }
+
+                                
+            
+                                </strong>
                                 <small>Just now</small>
                             </Toast.Header>
                             <Toast.Body>
                                 {
-                                   isReserved ?  "Woohoo, you got this challenge, I believe in you!" : "Please check your cohort kata level or if it is in your reservation already."
+                                   isReserved ?  "Woohoo, you got this challenge, I believe in you!"  : "Please check your cohort kata level or if it is in your reservation already and make sure a Kata Language is chosen."
                                 }
                                 </Toast.Body>
                             </Toast>
