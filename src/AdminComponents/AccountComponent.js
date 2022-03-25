@@ -51,12 +51,11 @@ export default function AccountComponent() {
 
   const handleCohortSelect = (e) =>{
     setCohortName(e.target.value);
-    console.log(CohortName);
+ 
     
   }
   const handleAdmin = async () => {
     setIsAdmin(!isAdmin);
-    // console.log(isAdmin);
   };
   
   //show toast if the username does not exist
@@ -65,10 +64,7 @@ export default function AccountComponent() {
   //show toast if username already exist
   const [showB, setShowB] = useState(false);
   const toggleShowB = () => setShowB(!showB);
-  
-  //show button if the username does exist
-  // const [showButton, setShowButton] = useState(false);
-  // const toggleShowButton = () => setShowButton(!showButton);
+
 
 
   return (
