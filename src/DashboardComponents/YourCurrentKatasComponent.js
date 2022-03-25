@@ -10,7 +10,7 @@ import {GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChal
 
 export default function YourCurrentKatasComponent() {
 
-        let { codewarsName, token, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
+        let { codewarsName,storedCodewarsName, setCodewarsName, token, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
         let navigate = useNavigate();
 
         const [codewarsKata, setCodewarsKata] = useState([]);
@@ -21,14 +21,20 @@ export default function YourCurrentKatasComponent() {
            navigate("/login");
         }
         else{
-            let reservations = await GetReservationsByUsername(codewarsName)
+           storedCodewarsName = localStorage.getItem("codewarsName")
+            if(storedCodewarsName!=null)
+            {
+                 let reservations = await GetReservationsByUsername(storedCodewarsName)
             console.log(reservations);
-            console.log(codewarsName);
+            console.log(storedCodewarsName);
+            
             if(reservations.length !=0)
             {
                 setReservedKatas(reservations)
               
             }
+            }
+           
         }
         
     }, []);
@@ -37,6 +43,7 @@ export default function YourCurrentKatasComponent() {
     {
       
         console.log(kata)
+        console.log(codewarsName)
         let kataInfo = await GetCodeChallenge(kata.kataId)
         console.log(kataInfo)
         if (kataInfo.length !=0)
@@ -94,7 +101,7 @@ export default function YourCurrentKatasComponent() {
                                             return(
                                             !kata.isDeleted?
                                                  <tr key={idx}>
-                                              <td>{kata.kataLevel}</td>
+                                              <td>{kata.kataLevel} kyu</td>
                                     <td onClick={()=> {handleKataInformation(kata)}}><a className='kata-link pointer' href={kata.kataLink} target="_blank">{kata.kataName}</a></td>
                                     <td><p className="redText">{kata.isCompleted?"Completed": "Not Completed"}</p></td>
                                     <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" onClick={()=> {handleUnreserveKata(kata.id)}}>Unreserve</Button></td>       
