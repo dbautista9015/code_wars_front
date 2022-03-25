@@ -6,12 +6,13 @@ import UserContext from '../Context/UserContext';
 
 const NavbarComponent = () => {
 
-    let { isAdmin,token, setToken } = useContext(UserContext);
+    let { isAdmin,token, setToken, storedCodewarsName, SetStoredCodwarsName } = useContext(UserContext);
  
 
     useEffect(() => {
 
         setToken(localStorage.getItem('Token'));
+        SetStoredCodwarsName(localStorage.getItem('codewarsName'))
         //console.log(localStorage.getItem('Token'));
         
     }, [token]);
@@ -37,7 +38,7 @@ const NavbarComponent = () => {
                     {token == null ?
                         <Nav.Link className='headerText' eventKey={2} as={Link} to="/login">Login</Nav.Link> 
                         :
-                        <Nav.Link className='headerText' eventKey={2} as={Link} to="/login" onClick={handleSignout}>Sign out</Nav.Link> 
+                        <Nav.Link className='headerText' eventKey={2} as={Link} to="/login" onClick={handleSignout}>Not <u>{storedCodewarsName}</u>? Sign out</Nav.Link> 
                     }
                     {/* <Nav.Link eventKey={2} as={Link} to="/signout">Login</Nav.Link> */}
                 </Nav>
