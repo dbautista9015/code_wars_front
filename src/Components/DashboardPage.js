@@ -6,7 +6,7 @@ import YourPastKatasComponent from "../DashboardComponents/YourPastKatasComponen
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../Hooks/use-user";
 import UserContext from "../Context/UserContext";
-import {GetCohortByCohortName, DoesUserExist} from "../Services/DataService"
+import {GetCohortByCohortName, DoesUserExist, GetUserByUsername} from "../Services/DataService"
 
 export default function DashboardPage() {
   let { cohortName, setCohortName, storedCodewarsName, setCodewarsName } = useContext(UserContext);
@@ -14,6 +14,7 @@ export default function DashboardPage() {
 
   const [cohortInfo, setCohortInfo] = useState("");
   const [totalCompleted, setTotalCompleted] = useState("");
+  const [lvlDifficulty, setCohortLvlDifficulty] = useState("");
 
   useEffect(async () => {
     let token = localStorage.getItem("Token");
@@ -23,11 +24,12 @@ export default function DashboardPage() {
       storedCodewarsName = localStorage.getItem("codewarsName");
       if (storedCodewarsName != null) {
         setCodewarsName(storedCodewarsName);
-        setCohortName(cohortName);
-        let cohortInfo = await GetCohortByCohortName(cohortName);
-        setCohortInfo(cohortInfo);
-        let completed = await DoesUserExist(storedCodewarsName);
-        let totalCompleted = completed.codeChallenges.totalCompleted;
+        let userInfo = await GetUserByUsername(storedCodewarsName);
+        setCohortName(userInfo.cohortName);
+        let cohortInfo = await GetCohortByCohortName(userInfo.cohortName);
+        setCohortLvlDifficulty(cohortInfo.lvlDifficulty);
+        let userInfoFromCodewars = await DoesUserExist(storedCodewarsName);
+        let totalCompleted = userInfoFromCodewars.codeChallenges.totalCompleted;
         setTotalCompleted(totalCompleted);
       }
     }
@@ -41,7 +43,7 @@ export default function DashboardPage() {
             <Col sm={3} className="tabBg">
               <div className="tabBtn1 mt-5">
                 <p className="headerText1">Cohort Name: {cohortName}</p>
-                <p className="headerText1">Cohort Level: {cohortInfo.lvlDifficulty} kyu and lower</p>
+                <p className="headerText1">Cohort Level: {lvlDifficulty} kyu and lower</p>
                 <p className="headerText1">Total Katas Completed: {totalCompleted}</p>
               </div>
               <Nav variant="pills" className="flex-column allText marginTop">
