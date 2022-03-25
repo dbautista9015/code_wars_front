@@ -67,7 +67,6 @@ export default function EditCohortComponent() {
 
   //function to add/remove member to cohort when list group is pressed
   const handleEditMember = async (e, updateWith) => {
-    console.log(e.target.textContent);
     let editedUser = e.target.textContent;
     e.target.classList.toggle("active");
     let result = await EditCohortForUser(editedUser, updateWith);
