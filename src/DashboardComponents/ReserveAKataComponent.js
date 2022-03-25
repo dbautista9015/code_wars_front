@@ -9,7 +9,7 @@ export default function ReserveAKataComponent() {
 
     let navigate = useNavigate();
     
-    let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
+    let { codewarsName,storedCodewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
 
     const [searchedKata, setSearchedKata] = useState("");
     const [fetchedKata, setFetchedKata] = useState([]);
@@ -23,11 +23,18 @@ export default function ReserveAKataComponent() {
         if (token == null) {
             navigate("/login");
          }
-
-        let allUserReservations = await GetReservationsByUsername(codewarsName);
+         else{
+            storedCodewarsName = localStorage.getItem("codewarsName")
+            if(storedCodewarsName!=null)
+            {
+                 let allUserReservations = await GetReservationsByUsername(storedCodewarsName);
         
         let currentReservations = allUserReservations.filter(reservation => !reservation.isDeleted && !reservation.isCompleted)
         setNumberOfReservations(currentReservations);
+         }
+        }
+
+        
     }, []);
 
     const handleSubmit = async () => {
