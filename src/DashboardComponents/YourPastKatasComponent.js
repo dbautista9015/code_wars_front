@@ -6,9 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import {GetReservationsByUsername, ChangeReservationStatus } from '../Services/DataService'
 
 export default function YourPastKatasComponent() {
-
-    let { codewarsName, storedCodewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
-
+    let {storedCodewarsName,token,reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
     let navigate = useNavigate();
 
 useEffect(async () => {
@@ -20,12 +18,9 @@ useEffect(async () => {
         if(storedCodewarsName!=null)
         {
              let reservations = await GetReservationsByUsername(storedCodewarsName)
-       
-        console.log(reservations)
         if(reservations.length !=0)
         {
             setReservedKatas(reservations)
-          
         }
     }
     }
@@ -33,13 +28,10 @@ useEffect(async () => {
 }, []);
 
 const handleReserveKata= async(kata)=> {
-    console.log(kata)
     let result =  await ChangeReservationStatus(kata.id)
-    console.log(result)
     if (result.length !=0)
     {
         let reservations = await GetReservationsByUsername(kata.codewarsName)
-        console.log(reservations)
         if(reservations.length !=0)
         {
             setReservedKatas(reservations)
@@ -60,9 +52,6 @@ const handleReserveKata= async(kata)=> {
                                 <Form.Label className="searchKataText headerText">Your Past Katas</Form.Label>
                             </Form.Group>
                             <Table striped bordered hover variant="dark">
-                                {/* {userReservations.level == 6 ?
-                                
-                            } */}
                                 <thead>
                                     <tr>
                                     <th>Level</th>
@@ -92,8 +81,6 @@ const handleReserveKata= async(kata)=> {
                                             {
                                                 numberOfReservations.length>=3? <Button className='allText unreserveBtn mt-1 mb-1' variant="secondary" disabled>Reserve</Button> :<Button className='allText unreserveBtn mt-1 mb-1' variant="success" onClick={()=> {handleReserveKata(kata)}}>Reserve</Button>
                                             }
-                                          
-                                            
                                             </td>
                                         :
                                         null
@@ -105,8 +92,6 @@ const handleReserveKata= async(kata)=> {
                                         :
                                        <tr><td>You do not have any past reservations</td></tr> 
                                     }
-                                   
-                                
                                 </tbody>
                             </Table>
                         </Col>

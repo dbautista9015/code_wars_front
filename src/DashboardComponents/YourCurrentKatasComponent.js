@@ -10,7 +10,7 @@ import {GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChal
 
 export default function YourCurrentKatasComponent() {
 
-        let { codewarsName,storedCodewarsName, setCodewarsName, token, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
+        let { codewarsName,storedCodewarsName, token, reservedKatas, setReservedKatas, setNumberOfReservations } = useContext(UserContext);
         let navigate = useNavigate();
 
         const [codewarsKata, setCodewarsKata] = useState([]);
@@ -25,43 +25,30 @@ export default function YourCurrentKatasComponent() {
             if(storedCodewarsName!=null)
             {
                  let reservations = await GetReservationsByUsername(storedCodewarsName)
-            console.log(reservations);
-            console.log(storedCodewarsName);
-            
             if(reservations.length !=0)
             {
                 setReservedKatas(reservations)
-              
             }
             }
-           
         }
-        
     }, []);
 
     const handleKataInformation = async (kata) => 
     {
-      
-        console.log(kata)
-        console.log(codewarsName)
         let kataInfo = await GetCodeChallenge(kata.kataId)
-        console.log(kataInfo)
         if (kataInfo.length !=0)
         {
             setCodewarsKata(kataInfo)  
             setReservedKata(kata)
         }
-
     }
 
     const handleUnreserveKata = async (id) => 
-    {   console.log(id)
+    {   
         let result =  await ChangeReservationStatus(id)
-        console.log(result)
         if (result.length !=0)
         {
             let reservations = await GetReservationsByUsername(codewarsName)
-            console.log(reservations)
             if(reservations.length !=0)
             {
                 setReservedKatas(reservations)
@@ -82,9 +69,6 @@ export default function YourCurrentKatasComponent() {
                                 <Form.Label className="searchKataText headerText">Your Current Reservations</Form.Label>
                             </Form.Group>
                             <Table striped bordered hover variant="dark">
-                                {/* {userReservations.level == 6 ?
-                                
-                            } */}
                                 <thead>
                                     <tr>
                                     <th>Level</th>
@@ -98,7 +82,6 @@ export default function YourCurrentKatasComponent() {
                                     {
                                         reservedKatas.length!=0?
                                         reservedKatas.map((kata, idx)=> {
-                                            
                                             return(
                                             !kata.isDeleted?
                                                  <tr key={idx}>
@@ -109,7 +92,6 @@ export default function YourCurrentKatasComponent() {
                                     <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" onClick={()=> {handleUnreserveKata(kata.id)}}>Unreserve</Button></td>       
                                             </tr>:null
                                             )
-                                           
                                         })
                                         :
                                         <tr><td>"You do not have any reservations"</td></tr>
@@ -120,7 +102,6 @@ export default function YourCurrentKatasComponent() {
                             </Table>
                         </Col>
                         <Col md={12} className='mt-4'>
-                       
                             {
                                 codewarsKata.length!=0?
                                 <>
@@ -142,8 +123,6 @@ export default function YourCurrentKatasComponent() {
                              :
                              null
                             }
-                                
-                           
                         </Col>
                     </Row>
                 </Col>

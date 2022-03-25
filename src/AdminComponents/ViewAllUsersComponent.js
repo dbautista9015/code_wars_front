@@ -12,25 +12,58 @@ import {
 } from "react-bootstrap";
 import UserContext from '../Context/UserContext';
 import { useUser } from '../Hooks/use-user';
-import {GetAllCohorts, GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChallenge} from "../Services/DataService"
+import {GetAllCohorts, GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChallenge, GetUsersByCohort} from "../Services/DataService"
 
 export default function ViewAllUsersComponent() {
   let {reservedKatas, setReservedKatas } = useContext(UserContext);
+  const [cohorts, setCohorts] = useState([]);
+  const [cohortUsers, setCohortUsers] = useState([]);
+  const [cohortUserReservations, setCohortUserReservations] = useState([]);
 
   useEffect(async ()=>{
     let token = localStorage.getItem('Token')
     if(token!=null)
     {
-      let cohorts = await GetAllCohorts()
-      console.log(cohorts)
+      let fetchedCohorts = await GetAllCohorts()
+      setCohorts(fetchedCohorts)
     }
 
   },[]);
 
+  const handleShowCohortNames =async(cohort)=>{
+    let fetchedCohortUsers = await GetUsersByCohort(cohort)
+    setCohortUsers(fetchedCohortUsers)
+  }
+
   //for the view user modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = async (username) => {
+     setShow(true);
+     let reservations = await GetReservationsByUsername(username)
+
+     if(reservations.length !=0)
+     {
+      setCohortUserReservations(reservations)
+     }
+     else{
+      setCohortUserReservations([])
+     }
+  }
+
+  const handleMarkCompleted = async (id, name)=> {
+    let result = await ChangeReservationCompletedStatus(id);
+    if(result)
+    {
+      let reservations = await GetReservationsByUsername(name)
+     if(reservations.length !=0)
+     {
+      setCohortUserReservations(reservations)
+     }
+    }
+  }
+ 
+   
   return (
     <>
     <Container className='grayCardBg mt-5 pt-4 pb-4 roundedCorners'>
@@ -45,48 +78,36 @@ export default function ViewAllUsersComponent() {
         <Row className="justify-content-center">
           <Col sm={6}>
             <Accordion>
-              <Accordion.Item eventKey="0" className="listGroupBG">
-                <Accordion.Header>Season 1 Cohort</Accordion.Header>
-                <Accordion.Body>
-                  <ListGroup>
-                    <ListGroup.Item
-                      action
-                      className="allUsersInCohort"
-                      onClick={handleShow}
-                    >
-                      Danny
-                    </ListGroup.Item>
-                    <ListGroup.Item action className="allUsersInCohort">
-                      Trent
-                    </ListGroup.Item>
-                    <ListGroup.Item action className="allUsersInCohort">
-                      Dylan
-                    </ListGroup.Item>
-                    <ListGroup.Item action className="allUsersInCohort">
-                      Walaa
-                    </ListGroup.Item>
-                  </ListGroup>
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey="1" className="listGroupBG">
-                <Accordion.Header>Season 2 Cohort</Accordion.Header>
-                <Accordion.Body>
-                  
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey="2" className="listGroupBG">
-                <Accordion.Header>Season 3 Cohort</Accordion.Header>
-                <Accordion.Body>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </Accordion.Body>
-              </Accordion.Item>
+              {
+                cohorts.map((cohort, idx)=> {
+                  return(
+                    <Accordion.Item key={idx} eventKey={idx} className="listGroupBG">
+                    <Accordion.Header onClick={()=>handleShowCohortNames(cohort.cohortName)}>{cohort.cohortName} Cohort</Accordion.Header>
+                    <Accordion.Body>
+                      <ListGroup>
+                        {
+                          cohortUsers.map((name, idx)=>{
+                              return(
+
+                                 <ListGroup.Item key={idx}
+                          action
+                          className="allUsersInCohort"
+                          onClick={()=>{handleShow(name.codewarsName)}}
+                        >
+                          {name.codewarsName}
+                        </ListGroup.Item>
+                              )
+
+                          })
+                        }
+                      </ListGroup>
+                    </Accordion.Body>
+                  </Accordion.Item>
+
+                  )
+                })
+              }
+              
             </Accordion>
           </Col>
         </Row>
@@ -109,28 +130,40 @@ export default function ViewAllUsersComponent() {
                                     <th>Level</th>
                                     <th>Kata name</th>
                                     <th>Status</th>
-                                    <th>Mark Complete</th>
+                                    <th>Language</th>
+                                    <th>Link</th>
+                                    <th>Date Reserved</th>
+                                    <th>Mark Completed</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                    <td>3 Kyu</td>
-                                    <td>Calculate Angel's Salary</td>
-                                    <td><p className="redText">Incomplete</p></td>
-                                    <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" type="submit">Incomplete</Button></td>
-                                    </tr>
-                                    <tr>
-                                    <td>5 Kyu</td>
-                                    <td>Calculate Angel's Salary</td>
-                                    <td><p className="redText">Incomplete</p></td>
-                                    <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" type="submit">Incomplete</Button></td>
-                                    </tr>
-                                    <tr>
-                                    <td>6 Kyu</td>
-                                    <td>Calculate Angel's Salary</td>
-                                    <td><p className="greenText">Completed</p></td>
-                                    <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="success" type="submit">Completed</Button></td>
-                                    </tr>
+                                  {
+                                    cohortUserReservations.length!=0?
+                                    (
+                                    cohortUserReservations.map((reservation,idx)=>{
+                                      return(
+                                       
+                                        !reservation.isCompleted?
+                                        (
+                                           <tr key={idx}>
+                                          <td>{reservation.kataLevel} Kyu</td>
+                                          <td>{reservation.kataName}</td>
+                                          <td><p className="redText">{reservation.isCompleted?"Completed":"Not Completed"}</p></td>
+                                          <td>{reservation.kataLanguage}</td>
+                                          <td><a className='kata-link pointer' href={reservation.kataLink} target="_blank">Open</a></td>
+                                          <td>{reservation.dateAdded}</td>
+                                          <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" onClick={()=>handleMarkCompleted(reservation.id, reservation.codewarsName)}>Incomplete</Button></td>
+                                          </tr>
+                                        ):null
+                                      )
+                                    })
+                                    )
+                                    :
+                                   <tr><td colSpan={6}>This user has no reservations</td></tr>
+                                  
+                                  }
+                                   
+                                   
                                 </tbody>
                             </Table>
           
@@ -138,9 +171,6 @@ export default function ViewAllUsersComponent() {
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="success" onClick={handleClose}>
-            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

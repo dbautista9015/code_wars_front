@@ -176,3 +176,10 @@
 .kata-link:hover{
   color: rgb(235, 183, 23);
 }
+
+@media (min-width: 576px)
+{
+.modal-dialog {
+    max-width: 900px !important;
+}
+}
