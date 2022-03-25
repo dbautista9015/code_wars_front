@@ -9,6 +9,7 @@ export default function CreateCohortComponent() {
   const [cohortLevel, setCohortLevel] = useState("");
   const [allUsers, setAllUsers] = useState([]);
 
+  const [tempArray, setTempArray] = useState("");
 
 
   const handleSubmit = async () => {
@@ -26,13 +27,17 @@ export default function CreateCohortComponent() {
     AddCohort(newCohort);
   }
 
-  const handleClick = async (e, cohortName) => {
-    //let updateCohortName = EditCohortForUser(codewarsName, cohortName);
+  const handleClick = async (e) => {
+    console.log(e.target.textContent);
+    let editUser = e.target.textContent;
+    let updateCohortName = await EditCohortForUser(editUser, cohortName);
+    setTempArray(updateCohortName.cohortName);
+    
   }
 
   useEffect(async () => {
     let allFetchedUsers = await GetAllUsers();
-    setAllUsers(allFetchedUsers.filter((user) => user.cohortName == "Select Cohort"))
+    setAllUsers(allFetchedUsers.filter((user) => user.cohortName == "Select Cohort" || user.cohortName == "undefined"))
     //console.log(allUsers);
   }, []);
 
@@ -101,7 +106,7 @@ export default function CreateCohortComponent() {
               {allUsers.map((user, idx) => {
                 return (
                   <ListGroup.Item key={user}  as="li" className="listGroupBG" onClick={(e) =>
-                    handleClick(e, user.cohortName)
+                    handleClick(e, user.codewarsName, user.cohortName)
                   }>{user.codewarsName}</ListGroup.Item>
                 )
               })}
@@ -110,26 +115,6 @@ export default function CreateCohortComponent() {
         </Row>
 
       </Container>
-
-
-
-
-
-      {/* ListGroup as="ul">
-              {allSpecialist.map((user, idx) => {
-                return (
-                  <ListGroup.Item
-                    key={user}
-                    action
-                    as="li"
-                    onClick={(e) => addUserToArrayId(e, user.id, user.username)}
-                  >
-                    {user.fullName}
-                  </ListGroup.Item>
-                );
-              })}
-            </ListGroup> */}
-
     </>
   );
 }

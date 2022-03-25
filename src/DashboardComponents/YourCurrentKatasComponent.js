@@ -10,7 +10,7 @@ import {GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChal
 
 export default function YourCurrentKatasComponent() {
 
-        let { codewarsName, setCodewarsName, cohortName, setCohortName, userId, setUserId, isAdmin, setIsAdmin, isDeleted, setIsDeleted, token, setToken, reservedKatas, setReservedKatas } = useContext(UserContext);
+        let { codewarsName, token, reservedKatas, setReservedKatas, numberOfReservations, setNumberOfReservations } = useContext(UserContext);
         let navigate = useNavigate();
 
         const [codewarsKata, setCodewarsKata] = useState([]);
@@ -22,7 +22,8 @@ export default function YourCurrentKatasComponent() {
         }
         else{
             let reservations = await GetReservationsByUsername(codewarsName)
-            console.log(reservations)
+            console.log(reservations);
+            console.log(codewarsName);
             if(reservations.length !=0)
             {
                 setReservedKatas(reservations)
@@ -57,6 +58,8 @@ export default function YourCurrentKatasComponent() {
             if(reservations.length !=0)
             {
                 setReservedKatas(reservations)
+                let currentReservations = reservations.filter(reservation => !reservation.isDeleted && !reservation.isCompleted)
+                setNumberOfReservations(currentReservations);
             }
         }
     }
@@ -92,9 +95,9 @@ export default function YourCurrentKatasComponent() {
                                             !kata.isDeleted?
                                                  <tr key={idx}>
                                               <td>{kata.kataLevel}</td>
-                                    <td onClick={()=> {handleKataInformation(kata)}}>{kata.kataName}</td>
+                                    <td onClick={()=> {handleKataInformation(kata)}}><a className='kata-link pointer' href={kata.kataLink} target="_blank">{kata.kataName}</a></td>
                                     <td><p className="redText">{kata.isCompleted?"Completed": "Not Completed"}</p></td>
-                                    <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" type="submit" onClick={()=> {handleUnreserveKata(kata.id)}}>Unreserve</Button></td>       
+                                    <td className="d-flex justify-content-center"><Button className='allText unreserveBtn mt-1 mb-1' variant="danger" onClick={()=> {handleUnreserveKata(kata.id)}}>Unreserve</Button></td>       
                                             </tr>:null
                                             )
                                            
@@ -114,7 +117,7 @@ export default function YourCurrentKatasComponent() {
                                 <>
                                  <div className='d-flex mt-4'>
                                 <p className='dashboardSlugTitle headerText'>Challenge name:</p>
-                                <p className='dashboardSlugText ms-2 allText'>{codewarsKata.name}</p>
+                                <p className='dashboardSlugText ms-2 allText kataName'>{codewarsKata.name}</p>
                                 <p className='dashboardSlugTitle ms-5 headerText'>Level:</p>
                                 <p className='dashboardSlugText ms-2 allText' >{codewarsKata.rank.name}</p>
                                 <p className='dashboardSlugTitle ms-5 headerText'>Language:</p>
