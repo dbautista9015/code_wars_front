@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import UserContext from '../Context/UserContext';
 import { useUser } from '../Hooks/use-user';
-import {GetAllCohorts, GetReservationsByUsername, ChangeReservationCompletedStatus, GetCodeChallenge, GetUsersByCohort} from "../Services/DataService"
+import {GetAllCohorts, GetReservationsByUsername,GetUserByUsername, ChangeReservationCompletedStatus, GetCodeChallenge, GetUsersByCohort} from "../Services/DataService"
 
 export default function ViewAllUsersComponent() {
   let {reservedKatas, setReservedKatas } = useContext(UserContext);
@@ -42,6 +42,11 @@ export default function ViewAllUsersComponent() {
   const handleShow = async (username) => {
      setShow(true);
      let reservations = await GetReservationsByUsername(username)
+     let user = await GetUserByUsername(username)
+      if (user !=null)
+      {
+        setCohortUser(user)
+      }
 
      if(reservations.length !=0)
      {
@@ -119,8 +124,8 @@ export default function ViewAllUsersComponent() {
           <Modal.Title>User Info</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <h3>CodeWars Name: Danny</h3>
-            <h3>Cohort: Season 4</h3>
+            <h3>CodeWars Name: {cohortUser.codewarsName}</h3>
+            <h3>Cohort: {cohortUser.cohortName}</h3>
 
             <Table striped bordered hover variant="dark">
                                 {/* {userReservations.level == 6 ?
@@ -160,7 +165,7 @@ export default function ViewAllUsersComponent() {
                                     })
                                     )
                                     :
-                                   <tr><td colSpan={6}>This user has no reservations</td></tr>
+                                   <tr><td colSpan={7}>This user has no reservations</td></tr>
                                   
                                   }
                                    
