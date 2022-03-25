@@ -367,7 +367,6 @@ async function GetCodeChallenge(id) {
     return data;
 }
 
-async function RemoveReservation()
 
 
 
