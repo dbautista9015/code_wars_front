@@ -76,6 +76,26 @@
   overflow-y: scroll;
 }
 
+.scrollFeature3 {
+  /* max-height: 165px; */
+  max-height: 210px;
+  overflow: auto;
+}
+
+.scrollFeature3::-webkit-scrollbar {
+  width: 8px;               /* width of the entire scrollbar */
+}
+
+.scrollFeature3::-webkit-scrollbar-track {
+  background: #3F3F45 ;        /* color of the tracking area */
+}
+
+.scrollFeature3::-webkit-scrollbar-thumb {
+  background-color: #262729;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid #3F3F45 ;  /* creates padding around scroll thumb */
+}
+
 .marginTop {
   margin-top: 45%;
 }

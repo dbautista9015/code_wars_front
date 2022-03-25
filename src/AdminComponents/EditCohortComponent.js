@@ -23,18 +23,21 @@ export default function EditCohortComponent() {
   const [allUsers, setAllUsers] = useState([]);
   const [allCohorts, setAllCohorts] = useState([]);
   const [currentCohort, setCurrentCohort] = useState({});
+  const [allMembersInCohort, setAllMembersInCohort] = useState([]);
   
   let allFetchedUsers;
+  let allMembers;
 
 
   //function for the buttons that displays current cohorts. this button will also set old cohort name
   const handleSetAndShow = async (e) => {
     let temp = e.target.textContent.toString();
     let temp1 = temp.replace('%20', " ");
-    console.log(temp)
     setOldCohortName(temp1);
     let allUsers = await GetAllUsers();
     setAllUsers([...allUsers]);
+    allMembers = await GetUsersByCohort(temp1);
+    setAllMembersInCohort([...allMembers]);
     let clickedCohort = await GetCohortByCohortName(temp1);
     setCurrentCohort(clickedCohort);
     setUpdatedCohortName(clickedCohort.cohortName);
@@ -42,13 +45,14 @@ export default function EditCohortComponent() {
     handleShow();
   }
 
+  
+
   //function for savechanges button in modal
   const handleClick = async () => {
     let result1 = await EditCohortName(oldCohortName, updatedCohortName);
-    let result2;
     if (result1)
     {
-      result2 = await UpdateCohortLvlDifficulty(updatedCohortName, cohortLvlDifficulty);
+      await UpdateCohortLvlDifficulty(updatedCohortName, cohortLvlDifficulty);
     }
     let remainingMembers = allUsers.filter((member) => member.cohortName == oldCohortName);
     for (const remainingMember of remainingMembers){
@@ -61,27 +65,18 @@ export default function EditCohortComponent() {
     handleClose();
   }
 
-  //function to add member to cohort when list group is pressed
-  const handleAddMember = async (e) => {
+  //function to add/remove member to cohort when list group is pressed
+  const handleEditMember = async (e, updateWith) => {
     console.log(e.target.textContent);
     let editedUser = e.target.textContent;
     e.target.classList.toggle("active");
-    let result = await EditCohortForUser(editedUser, oldCohortName);
+    let result = await EditCohortForUser(editedUser, updateWith);
     if (result){
       allFetchedUsers = await GetAllUsers();
+      allMembers = await GetUsersByCohort(oldCohortName);
     }
     setAllUsers([...allFetchedUsers]);
-  }
-
-  //function to remove member when name is clicked
-  const handleRemoveMember = async (e) => {
-    e.target.classList.toggle("active");
-    let editedUser = e.target.textContent;
-    let result = await EditCohortForUser(editedUser, "Select Cohort");
-    if (result){
-      allFetchedUsers = await GetAllUsers();
-    }
-    setAllUsers([...allFetchedUsers]);
+    setAllMembersInCohort([...allMembers]);
   }
 
 //useEffect to load current members in cohort on initial load
@@ -131,12 +126,12 @@ export default function EditCohortComponent() {
         <>
           <Modal show={show} onHide={handleClose} className="editCohortColor">
             <Modal.Header closeButton>
-              <Modal.Title>Edit {oldCohortName} & Kata Level</Modal.Title>
+              <Modal.Title className="allText">Edit {oldCohortName} & Kata Level</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form>
                 <Form.Group
-                  className="mb-3 allText"
+                  className="mb-3 headerText"
                   controlId="CodewarsUsername"
                 >
                   <Form.Label>Edit Cohort Name</Form.Label>
@@ -151,7 +146,7 @@ export default function EditCohortComponent() {
                 <Form.Group>
                   <Form.Select
                     aria-label="Default select example"
-                    className="listGroupBG"
+                    className="listGroupBG allText"
                     value={cohortLvlDifficulty}
                     onChange={({ target: { value } }) =>
                       setCohortLvlDifficulty(value)
@@ -170,24 +165,24 @@ export default function EditCohortComponent() {
                 </Form.Group>
                 <Row>
                   {
-                    allUsers.filter((user) => user.cohortName == oldCohortName).length > 0 ?  (
-                      <>
+                    allMembersInCohort.length > 0 ?  (
+                      < div>
                         <Row>
-                          <Col sm={6}>
-                            <h4 className="mt-4 headerText" style={{ color: "white" }}>
-                            Remove Current Members
-                            </h4>
+                          <Col sm={8}>
+                            <h5 className="mt-4 headerText" style={{ color: "white" }}>
+                            {allMembersInCohort.length} Current Member(s)
+                            </h5>
                           </Col>
                         </Row>
                         <Row>
                   <Col>
-                    <ListGroup as="ul">
+                    <ListGroup as="ul" className="scrollFeature3">
                     {
                         allUsers.filter((member) => member.cohortName == oldCohortName).map((user, idx) => {
                           return (
                             <ListGroup.Item 
-                             action onClick={(e) => handleRemoveMember(e)}
-                              key={user.codewarsName+"b"} 
+                             action onClick={(e) => handleEditMember(e, "Select Cohort")}
+                              key={user.codewarsName} 
                               as="li" 
                               className="listGroupBG pointer"
                               >{user.codewarsName}</ListGroup.Item>
@@ -197,29 +192,29 @@ export default function EditCohortComponent() {
                     </ListGroup>
                   </Col>
                 </Row>
-                      </>
+                      </div>
                     ) : null
                     }
                 </Row>
 
                 <Row>
                   <Col sm={6}>
-                    <h4 className="mt-4 headerText" style={{ color: "white" }}>
+                    <h5 className="mt-4 headerText" style={{ color: "white" }}>
                       Add Members
-                    </h4>
+                    </h5>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <ListGroup as="ul">
+                    <ListGroup as="ul" className="scrollFeature3">
                       {
                         allUsers.filter((member) => member.cohortName == "Select Cohort").map((user, idx) => {
                           return (
                             <ListGroup.Item 
-                             action onClick={(e) => handleAddMember(e)}
-                              key={user.codewarsName+"a"} 
+                             action onClick={(e) => handleEditMember(e, oldCohortName)}
+                              key={user.codewarsName} 
                               as="li" 
-                              className="listGroupBG pointer"
+                              className="listGroupBG pointer allText "
                               >{user.codewarsName}</ListGroup.Item>
                           )
                         })
@@ -230,10 +225,10 @@ export default function EditCohortComponent() {
               </Form>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
+              <Button variant="secondary" className="allText" onClick={handleClose}>
                 Close
               </Button>
-              <Button variant="success" onClick={handleClick}>
+              <Button variant="success" className="allText" onClick={handleClick}>
                 Save Changes
               </Button>
             </Modal.Footer>
