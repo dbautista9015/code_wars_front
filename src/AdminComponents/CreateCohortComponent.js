@@ -105,7 +105,7 @@ export default function CreateCohortComponent() {
               {/* map through users with no cohort */}
               {allUsers.map((user, idx) => {
                 return (
-                  <ListGroup.Item key={idx}  as="li" className="listGroupBG" onClick={(e) =>
+                  <ListGroup.Item action key={idx}  as="li" className="listGroupBG" onClick={(e) =>
                     handleClick(e, user.codewarsName, user.cohortName)
                   }>{user.codewarsName}</ListGroup.Item>
                 )
