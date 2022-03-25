@@ -13,7 +13,6 @@ const NavbarComponent = () => {
 
         setToken(localStorage.getItem('Token'));
         SetStoredCodwarsName(localStorage.getItem('codewarsName'))
-        //console.log(localStorage.getItem('Token'));
         
     }, [token]);
 
