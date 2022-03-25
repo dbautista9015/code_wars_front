@@ -43,7 +43,6 @@ export default function AccountComponent() {
         password,
         isAdmin,
       };
-      console.log(userData);
       AddUser(userData);
     }
   };

@@ -43,7 +43,6 @@ export default function ReserveAKataComponent() {
         let result = await GetCodeChallenge(temp);
         setFetchedKata(result);
         setFetchedKataLanguages(result.languages);
-        console.log(result);
     }
 
     const handleReserve = async (fetchedKata) => {
