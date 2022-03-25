@@ -22,16 +22,13 @@ const LoginPage = () => {
             password: password,
         };
 
-        console.log(userData);
 
         let fetchedToken = await UserLogin(userData);
-        console.log(fetchedToken);
 
         if (fetchedToken.token != null) {
             localStorage.setItem('Token', fetchedToken.token);
             let userInfo = await GetUserByUsername(userData.codewarsName)
             setCohortName(userInfo.cohortName);
-            console.log(userInfo);
             storedCodewarsName=localStorage.setItem("codewarsName", userData.codewarsName)
             setIsAdmin(userInfo.isAdmin);
             setToken(localStorage.getItem('Token'));

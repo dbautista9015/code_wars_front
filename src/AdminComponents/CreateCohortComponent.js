@@ -31,12 +31,10 @@ export default function CreateCohortComponent() {
       IsDeleted: false,
     };
 
-    // console.log(newCohort);
     AddCohort(newCohort);
   };
 
   const handleClick = async (e) => {
-    console.log(e.target.textContent);
     let editUser = e.target.textContent;
     e.target.classList.toggle("active");
     let updateCohortName = await EditCohortForUser(editUser, cohortName);
@@ -51,7 +49,7 @@ export default function CreateCohortComponent() {
           user.cohortName == "Select Cohort" || user.cohortName == "undefined"
       )
     );
-    //console.log(allUsers);
+    
   }, []);
 
   return (
