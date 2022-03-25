@@ -9,7 +9,7 @@ import {
   ToastContainer,
   Toast
 } from "react-bootstrap";
-import { AddUser, GetAllCohorts, DoesUserExist } from "../Services/DataService";
+import { AddUser, GetAllCohorts, DoesUserExist , GetUserByUsername} from "../Services/DataService";
 export default function AccountComponent() {
   const [CodewarsName, setCodewarsName] = useState("");
   const [CohortName, setCohortName] = useState("");
@@ -23,10 +23,15 @@ export default function AccountComponent() {
   });
   const handleSubmit = async () => {
     let result = await DoesUserExist(CodewarsName)
-   console.log(result)
+    let userExist = await GetUserByUsername(CodewarsName);
    if(result.success == false)
    {
      toggleShowA()
+     console.clear()
+   }else if(userExist.codewarsName == CodewarsName)
+   {
+    toggleShowB()
+    console.clear()
    }else{
     let userData = {
       Id: 0,
@@ -40,23 +45,26 @@ export default function AccountComponent() {
    }
     
   };
+
+
+
+
   const handleCohortSelect = (e) =>{
     setCohortName(e.target.value);
-    console.log(CohortName);
+ 
     
   }
   const handleAdmin = async () => {
     setIsAdmin(!isAdmin);
-    // console.log(isAdmin);
   };
   
   //show toast if the username does not exist
   const [showA, setShowA] = useState(false);
   const toggleShowA = () => setShowA(!showA);
+  //show toast if username already exist
+  const [showB, setShowB] = useState(false);
+  const toggleShowB = () => setShowB(!showB);
 
-  //show button if the username does exist
-  // const [showButton, setShowButton] = useState(false);
-  // const toggleShowButton = () => setShowButton(!showButton);
 
 
   return (
@@ -117,7 +125,7 @@ export default function AccountComponent() {
                 } )
               }
               </Form.Select>
-              <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Group className="mb-3 mt-2" controlId="formBasicCheckbox">
                 <Form.Check
                   type="checkbox"
                   label="Check If Admin Role"
@@ -128,6 +136,9 @@ export default function AccountComponent() {
               
               {
                 showA == false
+              }
+              {
+                showB == false
               }
               <Button
                 variant="success"
@@ -151,7 +162,20 @@ export default function AccountComponent() {
              />
              <strong className="me-auto">Username Error</strong>
            </Toast.Header>
-           <Toast.Body>This username does not exist in Codewars</Toast.Body>
+           <Toast.Body>This username does not exist in Codewars.</Toast.Body>
+         </Toast>
+       </ToastContainer>
+         <ToastContainer className="p-3" position= "top-end">
+          <Toast show={showB} onClose={toggleShowB}>
+           <Toast.Header>
+             <img
+               src="holder.js/20x20?text=%20"
+               className="rounded me-2"
+               alt=""
+             />
+             <strong className="me-auto">Username Already Exist</strong>
+           </Toast.Header>
+           <Toast.Body>There is account with this username already.</Toast.Body>
          </Toast>
        </ToastContainer>
      

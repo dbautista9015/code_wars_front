@@ -1,49 +1,60 @@
 import React, { useState, useEffect } from "react";
-import { Form, FloatingLabel, ListGroup, Row, Col, Container, Button } from "react-bootstrap";
-import { AddCohort, GetAllUsers, EditCohortForUser } from '../Services/DataService';
-
+import {
+  Form,
+  FloatingLabel,
+  ListGroup,
+  Row,
+  Col,
+  Container,
+  Button,
+} from "react-bootstrap";
+import {
+  AddCohort,
+  GetAllUsers,
+  EditCohortForUser,
+} from "../Services/DataService";
 
 export default function CreateCohortComponent() {
-
   const [cohortName, setCohortName] = useState("");
   const [cohortLevel, setCohortLevel] = useState("");
   const [allUsers, setAllUsers] = useState([]);
 
   const [tempArray, setTempArray] = useState("");
 
-
   const handleSubmit = async () => {
-
     let newCohort = {
       Id: 0,
       CohortName: cohortName,
       LvlDifficulty: cohortLevel,
       DateCreated: new Date(),
       IsArchived: false,
-      IsDeleted: false
-    }
+      IsDeleted: false,
+    };
 
-    // console.log(newCohort);
     AddCohort(newCohort);
-  }
+  };
 
   const handleClick = async (e) => {
-    console.log(e.target.textContent);
     let editUser = e.target.textContent;
+    e.target.classList.toggle("active");
     let updateCohortName = await EditCohortForUser(editUser, cohortName);
     setTempArray(updateCohortName.cohortName);
-    
-  }
+  };
 
   useEffect(async () => {
     let allFetchedUsers = await GetAllUsers();
-    setAllUsers(allFetchedUsers.filter((user) => user.cohortName == "Select Cohort" || user.cohortName == "undefined"))
-    //console.log(allUsers);
+    setAllUsers(
+      allFetchedUsers.filter(
+        (user) =>
+          user.cohortName == "Select Cohort" || user.cohortName == "undefined"
+      )
+    );
+    
   }, []);
 
   return (
     <>
-      <Container className='grayCardBg mt-5 pt-4 pb-4 roundedCorners'>
+      <Container className="grayCardBg mt-5 pt-4 pb-4 roundedCorners">
         <Row>
           <Col sm={3}>
             <h3 className="headerText text-end" style={{ color: "white" }}>
@@ -70,9 +81,11 @@ export default function CreateCohortComponent() {
         </Row>
         <Row className="justify-content-center">
           <Col sm={6}>
-
-            <Form.Select aria-label="Default select example" className="listGroupBG"
-              onChange={({ target: { value } }) => setCohortLevel(value)}>
+            <Form.Select
+              aria-label="Default select example"
+              className="listGroupBG"
+              onChange={({ target: { value } }) => setCohortLevel(value)}
+            >
               <option>Select Cohort's Kata Level</option>
               <option value="8">8 Kyu Kata</option>
               <option value="7">7 Kyu Kata</option>
@@ -85,17 +98,23 @@ export default function CreateCohortComponent() {
             </Form.Select>
           </Col>
         </Row>
-        <Row className="justify-content-center">
+        {/* <Row className="justify-content-center">
           <Col sm={6}>
-            <Button variant="success" onClick={handleSubmit} className="mt-3 allText">
+            <Button
+              variant="success"
+              onClick={handleSubmit}
+              className="mt-3 allText"
+            >
               Submit
             </Button>
           </Col>
-        </Row>
+        </Row> */}
 
         <Row>
           <Col sm={3}>
-            <h3 className="mt-4 headerText text-end" style={{ color: "white" }}>Add Users:</h3>
+            <h3 className="mt-4 headerText text-end" style={{ color: "white" }}>
+              Add Users:
+            </h3>
           </Col>
         </Row>
 
@@ -105,15 +124,33 @@ export default function CreateCohortComponent() {
               {/* map through users with no cohort */}
               {allUsers.map((user, idx) => {
                 return (
-                  <ListGroup.Item key={idx}  as="li" className="listGroupBG" onClick={(e) =>
-                    handleClick(e, user.codewarsName, user.cohortName)
-                  }>{user.codewarsName}</ListGroup.Item>
-                )
+                  <ListGroup.Item
+                    action
+                    key={idx}
+                    as="li"
+                    className="listGroupBG"
+                    onClick={(e) =>
+                      handleClick(e, user.codewarsName, user.cohortName)
+                    }
+                  >
+                    {user.codewarsName}
+                  </ListGroup.Item>
+                );
               })}
             </ListGroup>
           </Col>
         </Row>
-
+        <Row className="justify-content-center">
+          <Col sm={6}>
+            <Button
+              variant="success"
+              onClick={handleSubmit}
+              className="mt-3 allText"
+            >
+              Submit
+            </Button>
+          </Col>
+        </Row>
       </Container>
     </>
   );

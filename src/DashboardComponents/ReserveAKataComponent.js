@@ -13,6 +13,7 @@ export default function ReserveAKataComponent() {
 
     const [searchedKata, setSearchedKata] = useState("");
     const [fetchedKata, setFetchedKata] = useState([]);
+    const [isReserved, setIsReserved] = useState(false);
     const [fetchedKataLanguages, setFetchedKataLanguages] = useState([]);
     const [languageChosen, setLanguageChosen] = useState("");
     const [showA, setShowA] = useState(false);
@@ -38,8 +39,8 @@ export default function ReserveAKataComponent() {
     }, []);
 
     const handleSubmit = async () => {
-
-        let result = await GetCodeChallenge(searchedKata);
+        let temp = searchedKata.split("/")[4];
+        let result = await GetCodeChallenge(temp);
         setFetchedKata(result);
         setFetchedKataLanguages(result.languages);
         console.log(result);
@@ -53,7 +54,7 @@ export default function ReserveAKataComponent() {
             codewarsName: codewarsName,
             cohortName: cohortName,
             kataName: fetchedKata.name,
-            kataLevel: fetchedKata.rank.name.split(' ')[0],
+            kataLevel: Number(fetchedKata.rank.name.split(' ')[0]),
             kataLink: fetchedKata.url,
             kataLanguage: languageChosen,
             dateAdded: (new Date()).toLocaleDateString('en-US'),
@@ -62,10 +63,10 @@ export default function ReserveAKataComponent() {
         };
 
         let result = await CreateReservation(newReservation);
+        setIsReserved(result);
         if (result) {
             let allUserReservations = await GetReservationsByUsername(codewarsName);
             setReservedKatas(allUserReservations);
-    
             let currentReservations = allUserReservations.filter(reservation => !reservation.isDeleted && !reservation.isCompleted)
             setNumberOfReservations(currentReservations);
             toggleShowA();
@@ -149,6 +150,7 @@ export default function ReserveAKataComponent() {
                             : null
                         }
 
+
                         <ToastContainer position="top-end">
                             <Toast onClose={() => setShowA(false)} show={showA} delay={5000} autohide>
                             <Toast.Header>
@@ -157,10 +159,18 @@ export default function ReserveAKataComponent() {
                                 className="rounded me-2"
                                 alt=""
                                 />
-                                <strong className="me-auto">Successfully added! ✅ </strong>
+                                <strong className="me-auto">
+                                {
+                                    isReserved ? "Sucessfully added ✅" : "Unable to reserve kata"
+                                    
+                                } </strong>
                                 <small>Just now</small>
                             </Toast.Header>
-                            <Toast.Body>Woohoo, you got this challenge, I believe in you!</Toast.Body>
+                            <Toast.Body>
+                                {
+                                   isReserved ?  "Woohoo, you got this challenge, I believe in you!" : "Please check your cohort kata level or if it is in your reservation already."
+                                }
+                                </Toast.Body>
                             </Toast>
                         </ToastContainer>
                     </Row>
